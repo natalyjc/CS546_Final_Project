@@ -112,6 +112,6 @@
 
 ```bash
 npm install
-npm run seed    # Seeds default admin and user
+npm run seed    # Seeds default admin and testuser
 npm start       # Starts the server at http://localhost:3000
 ```

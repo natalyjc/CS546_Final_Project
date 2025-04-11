@@ -107,3 +107,11 @@
 - Protect sensitive routes with middleware (you’ve started this!).
 - Sanitize inputs to prevent injection.
 - HTTPS if deploying live (e.g., via Heroku or Vercel).
+
+## Running the App
+
+```bash
+npm install
+npm run seed    # Seeds default admin and user
+npm start       # Starts the server at http://localhost:3000
+```

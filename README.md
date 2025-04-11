@@ -100,11 +100,11 @@
 
 - Users should see:
   - Their own set of courses/goals.
-  - Personalized content or learning feed (if API integrated).
+  - Personalized content or learning feed.
   
 #### Security Improvements
 
-- Protect sensitive routes with middleware (you’ve started this!).
+- Protect sensitive routes with middleware.
 - Sanitize inputs to prevent injection.
 - HTTPS if deploying live (e.g., via Heroku or Vercel).
 

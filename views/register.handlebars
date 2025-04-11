@@ -1,0 +1,25 @@
+<div class="auth-container">
+  <form method="POST" action="/register">
+    <h2>Register</h2>
+
+    <label for="firstName">First Name:</label>
+    <input type="text" name="firstName" required />
+
+    <label for="lastName">Last Name:</label>
+    <input type="text" name="lastName" required />
+
+    <label for="email">Email:</label>
+    <input type="text" name="email" required />
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Register</button>
+
+    {{#if error}}<p class="error">{{error}}</p>{{/if}}
+
+    <p class="sub-link">
+      Already have an account? <a href="/login">Login here</a>
+    </p>
+  </form>
+</div>

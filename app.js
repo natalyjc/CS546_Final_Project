@@ -1,33 +1,42 @@
 import express from 'express';
-import session from 'express-session';
 import exphbs from 'express-handlebars';
+import session from 'express-session';
+import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
+import dashboardRoutes from './routes/dashboard.js';
 
 const app = express();
-const port = 3000;
 
+app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
   name: 'AuthCookie',
-  secret: 'personalizedLearningSecret',
+  secret: 'some secret string',
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false
 }));
 
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-app.use('/auth', authRoutes);
+// Route registration
+app.use('/', authRoutes);
+app.use('/admin', adminRoutes);
+app.use('/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
   if (req.session.user) {
-    res.redirect('/dashboard');
+    if (req.session.user.isAdmin) {
+      res.redirect('/admin');
+    } else {
+      res.redirect('/dashboard');
+    }
   } else {
-    res.redirect('/auth/login');
+    res.redirect('/login');
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(3000, () => {
+  console.log(`Server running at http://localhost:3000/`);
 });

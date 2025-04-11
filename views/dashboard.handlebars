@@ -1,0 +1,15 @@
+<div class="dashboard-container">
+  <h2>Welcome, {{firstName}}!</h2>
+
+  {{#if isAdmin}}
+    <p class="admin-link">
+      <a href="/admin">Go to Admin Dashboard</a>
+    </p>
+  {{/if}}
+
+  <p>This is your personalized learning dashboard.</p>
+
+  <form action="/logout" method="GET">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+</div>

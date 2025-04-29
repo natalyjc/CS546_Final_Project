@@ -84,11 +84,12 @@
 - Courses Collection
 
   - CRUD operation for removing courses for a user.
-  - Backend to allow user to add a course.
+  - Build frontend forms and POST routes to allow users to add new courses via dashboard
   - Optional: YouTube/Coursera API integration for recommendations.
 
 - Goals Collection:
-  - Allow users update and delete personal learning goals.
+  - Allow users to update and delete personal learning goals.
+  - Build frontend forms and POST routes to allow users to add new goals via dashboard
   - Add targetDate to UI
 
 #### Progress Tracking Dashboard

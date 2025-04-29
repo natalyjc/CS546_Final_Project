@@ -27,6 +27,16 @@
 - MongoDB connection is configured.
 - User data functions (createUser, checkUser) implemented.
 
+### Courses & Goals Features
+
+- Courses Collection
+  - CRUD operations for adding and updating courses for a user.
+  - Frontend to display enrolled courses.
+
+- Goals Collection:
+  - Allow users to create and mark completed personal learning goals.
+  - Add a UI component to track progress (like checkboxes or percentage).
+  
 ### Basic Project Structure
 
 ```bash
@@ -34,9 +44,12 @@
 ├── README.md
 ├── app.js
 ├── config
+│   ├── mongoCollection.js
 │   ├── mongoConnection.js
 │   └── settings.js
 ├── data
+│   └── courses.js
+│   └── goals.js
 │   └── users.js
 ├── middleware
 │   └── admin.js
@@ -45,6 +58,7 @@
 ├── public
 │   └── css
 │       └── styles.css
+│   └── js
 ├── routes
 │   ├── admin.js
 │   ├── auth.js
@@ -54,6 +68,7 @@
 └── views
     ├── adminDashboard.handlebars
     ├── dashboard.handlebars
+    ├── error.handlebars
     ├── layouts
     │   └── main.handlebars
     ├── login.handlebars
@@ -68,14 +83,13 @@
 
 - Courses Collection
 
-  - CRUD operations for adding, updating, and removing courses for a user.
-  - Frontend to display enrolled courses.
+  - CRUD operation for removing courses for a user.
+  - Backend to allow user to add a course.
   - Optional: YouTube/Coursera API integration for recommendations.
 
 - Goals Collection:
-  - Allow users to set, update, and delete personal learning goals.
-  - Add a UI component to track progress (like checkboxes or percentage).
-  - Store goal completion status and deadlines.
+  - Allow users update and delete personal learning goals.
+  - Add targetDate to UI
 
 #### Progress Tracking Dashboard
 

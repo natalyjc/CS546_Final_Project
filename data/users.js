@@ -1,14 +1,15 @@
 import { connectDb } from '../config/mongoConnection.js';
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
+import { users } from '../config/mongoCollections.js';
 
+// create a new user 
 export const createUser = async (firstName, lastName, email, password, isAdmin = false) => {
   if (!password) throw 'Password is required';
 
-  const db = await connectDb();
-  const users = db.collection('users');
+  const usersCollection = await users();
 
-  const existing = await users.findOne({ email });
+  const existing = await usersCollection.findOne({ email });
   if (existing) throw 'Email already registered';
 
   const hashed = await bcrypt.hash(password, 10); 
@@ -22,16 +23,19 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
     isAdmin
   };
 
-  const result = await users.insertOne(newUser);
+  const result = await usersCollection.insertOne(newUser);
   if (!result.acknowledged) throw 'User creation failed';
 
   return { _id: result.insertedId, email, isAdmin };
 };
 
-
+// check user
 export const checkUser = async (email, password) => {
-  const db = await connectDb();
-  const user = await db.collection('users').findOne({ email });
+  if (!email || !password) throw 'Email and password required';
+
+  const usersCollection = await users();
+
+  const user = await usersCollection.findOne({ email });
   if (!user) throw 'Invalid email or password';
 
   const match = await bcrypt.compare(password, user.hashedPassword);
@@ -43,4 +47,16 @@ export const checkUser = async (email, password) => {
     firstName: user.firstName,
     isAdmin: user.isAdmin
   };
+};
+
+// get user by id
+export const getUserById = async (id) => {
+  if (!id) throw 'User ID required';
+
+  const usersCollection = await users();
+
+  const user = await usersCollection.findOne({ _id: new ObjectId(id) });
+  if (!user) throw 'User not found';
+
+  return user;
 };

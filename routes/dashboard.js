@@ -1,6 +1,10 @@
 import express from 'express';
 const router = express.Router();
 
+import { getCoursesByUserId } from '../data/courses.js';
+import { getGoalsByUserId } from '../data/goals.js';
+import { getUserById } from '../data/users.js';
+
 router.get('/', async (req, res) => {
   try {
     // Check if user is authenticated
@@ -8,13 +12,21 @@ router.get('/', async (req, res) => {
       return res.redirect('/login');
     }
 
-    // Render dashboard with user data
+    const userId = req.session.user._id;
+
+    const user = await getUserById(userId);
+    const courses = await getCoursesByUserId(userId);
+    const goals = await getGoalsByUserId(userId);    
+
     res.render('dashboard', {
       title: 'Dashboard',
-      firstName: req.session.user.firstName,
-      isAdmin: req.session.user.isAdmin
+      firstName: user.firstName, 
+      isAdmin: user.isAdmin,
+      courses,
+      goals
     });
   } catch (error) {
+    console.error(error);
     res.status(500).render('error', { error: 'Internal Server Error' });
   }
 });

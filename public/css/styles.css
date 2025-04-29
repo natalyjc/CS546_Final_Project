@@ -76,6 +76,7 @@ button:hover {
 
 .logout-btn {
   background-color: #ef4444;
+  margin-top: 30px;
 }
 
 .logout-btn:hover {
@@ -167,4 +168,65 @@ button:hover {
   h2 {
     font-size: 1.5rem;
   }
+}
+
+.dashboard-section {
+  margin-top: 2rem;
+}
+
+.dashboard-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 0.5rem;
+}
+
+.course-list, .goal-list {
+  list-style-type: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.course-card, .goal-card {
+  background-color: #f9fafb;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.course-card:hover, .goal-card:hover {
+  background-color: #f3f4f6;
+  transform: translateY(-2px);
+}
+
+.course-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #111827;
+}
+
+.course-progress, .course-status {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin-top: 0.5rem;
+}
+
+.goal-text {
+  font-size: 1.05rem;
+  color: #374151;
+}
+
+.goal-completed {
+  color: #10b981; /* green */
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.goal-pending {
+  color: #f59e0b; /* yellow */
+  font-weight: 600;
+  margin-top: 0.5rem;
 }

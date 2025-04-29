@@ -1,5 +1,5 @@
 import { connectDb } from '../config/mongoConnection.js';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
 
 export const createUser = async (firstName, lastName, email, password, isAdmin = false) => {

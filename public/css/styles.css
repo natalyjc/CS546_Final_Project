@@ -230,3 +230,19 @@ button:hover {
   font-weight: 600;
   margin-top: 0.5rem;
 }
+
+
+.error-message {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+input.valid {
+  border: 2px solid green;
+}
+
+input.error {
+  border: 2px solid red;
+} 

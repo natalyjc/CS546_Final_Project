@@ -26,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const nameRegex = /^[A-Za-z]{2,}$/;
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+     // email validation regex from  https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
+     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   
 
 
       let hasError = false;
@@ -50,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lastNameInput.classList.add('valid');
       }
 
-      if (!email.includes('@') || !email.includes('.') || email.length < 5) {
+      if (!email || !emailRegex.test(email) || email.length < 5) {
         document.getElementById('emailError').textContent = 'Enter a valid email address.';
         emailInput.classList.add('error');
         emailInput.classList.remove('valid');

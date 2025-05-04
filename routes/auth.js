@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { checkUser, createUser } from '../data/users.js';
+import { validName, validEmail, validPassword } from '../utils/validation.js';
 
 const router = Router();
 
@@ -8,8 +9,10 @@ router.get('/login', (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
   try {
+    email = validEmail(email);
+    password = validPassword(password).trim();
     const user = await checkUser(email, password);
     req.session.user = {
       _id: user._id,
@@ -33,7 +36,15 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  let { firstName, lastName, email, password } = req.body;
+  try {
+    firstName = validName(firstName).trim();
+    lastName = validName(lastName).trim();
+    email = validEmail(email).trim();
+    password = validPassword(password).trim();
+  } catch (e) {
+    return res.status(400).render('register', { error: e });
+  }
 
   if (!firstName || !lastName || !email || !password) {
     return res.status(400).render('register', { error: "All fields are required." });

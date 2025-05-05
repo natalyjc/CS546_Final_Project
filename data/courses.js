@@ -67,4 +67,20 @@ export const updateCourseProgress = async (courseId) => {
     if (result.modifiedCount === 0) throw 'Could not update course progress';
     return true;
 };
+
+// delete a course by course ID 
+export const deleteCourse = async (courseId, userId) => {
+  if (!courseId) throw 'Course ID is required';
+  if (!ObjectId.isValid(courseId)) throw 'Invalid course ID';
+
+  const coursesCollection = await courses();
+  const deletionResult = await coursesCollection.deleteOne({
+    _id: new ObjectId(courseId),
+    userId: userId.toString() // ensure only the owner can delete
+  });
+
+
+  if (deletionResult.deletedCount === 0) throw 'Course not found or could not be deleted';
+  return true;
+};
   

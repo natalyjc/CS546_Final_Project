@@ -1,1 +1,38 @@
+# Node.js dependencies
 node_modules/
+
+# Optional: ignore logs
+logs/
+*.log
+npm-debug.log*
+
+# dotenv files (for secrets)
+.env
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/
+.idea/
+
+# Build outputs (if applicable)
+dist/
+build/
+
+# MongoDB dump files (if any)
+dump/
+*.archive
+
+# Coverage reports
+coverage/
+
+# Runtime files
+pids/
+*.pid
+*.seed
+*.tgz
+
+*.bak
+*.swp

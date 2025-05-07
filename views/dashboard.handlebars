@@ -1,0 +1,56 @@
+<div class="dashboard-container">
+  <h2>Welcome, {{firstName}}!</h2>
+  <p>This is your personalized learning dashboard.</p>
+
+  {{#if isAdmin}}
+  <a href="/admin" class="admin-link">Go to Admin Dashboard</a>
+  {{/if}}
+
+  <div class="dashboard-section">
+    <h3>My Courses</h3>
+    <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
+    {{#if courses.length}}
+    <ul class="course-list">
+      {{#each courses}}
+      <li class="course-card">
+        <div class="course-name">{{this.title}}</div>
+        <div class="course-progress">Progress: {{this.progress}}%</div>
+        <div class="course-status">Status: {{this.status}}</div>
+
+         <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+          <button type="submit">Delete</button>
+        </form> 
+
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p>No courses added yet.</p>
+    {{/if}}
+  </div>
+
+  <div class="dashboard-section">
+    <h3>My Goals</h3>
+    {{#if goals.length}}
+    <ul class="goal-list">
+      {{#each goals}}
+      <li class="goal-card">
+        <div class="goal-text">{{this.goalTitle}}</div>
+        {{#if this.isCompleted}}
+        <div class="goal-completed">✅ Completed</div>
+        {{else}}
+        <div class="goal-pending">🚀 In Progress</div>
+        {{/if}}
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p>No goals added yet.</p>
+    {{/if}}
+  </div>
+
+  <form action="/logout" method="GET">
+    <button type="submit" class="logout-btn">Logout</button>
+  </form>
+
+</div>

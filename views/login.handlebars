@@ -1,0 +1,19 @@
+<div class="auth-container">
+  <form method="POST" action="/login">
+    <h2>Login</h2>
+
+    <label for="email">Email:</label>
+    <input type="email" name="email" required />
+
+    <label for="password">Password:</label>
+    <input type="password" name="password" required />
+
+    <button type="submit">Login</button>
+
+    {{#if error}}<p class="error">{{error}}</p>{{/if}}
+
+    <p class="sub-link">
+      Don't have an account? <a href="/register">Register here</a>
+    </p>
+  </form>
+</div>

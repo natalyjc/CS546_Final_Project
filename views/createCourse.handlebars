@@ -1,0 +1,21 @@
+<h2>Create New Course</h2>
+<form action="/dashboard/courses" method="POST">
+
+{{#if error}}
+  <div class="error-message" style="color: red;">
+    {{error}}
+  </div>
+{{/if}}
+  <label for="title">Course Title:</label><br>
+  <input type="text" id="title" name="title" required><br>
+
+  <label for="startDate">Start Date:</label><br>
+  <input type="date" id="startDate" name="startDate" required><br>
+
+  <label for="endDate">End Date:</label><br>
+  <input type="date" id="endDate" name="endDate" required><br>
+
+  
+
+  <button type="submit">Create Course</button>
+</form>

@@ -15,7 +15,7 @@
 
 ### Views & Styling
 
-- Handlebars templates: login, register, dashboard, admin dashboard
+- Handlebars templates: login, register, dashboard, admin dashboard, create course
 - Responsive UI with modern CSS styling
 
 ### Admin Dashboard
@@ -27,15 +27,26 @@
 - MongoDB connection is configured.
 - User data functions (createUser, checkUser) implemented.
 
-### Courses & Goals Features
+### Courses & Goals Features (Implemented)
 
-- Courses Collection
-  - CRUD operations for adding and updating courses for a user.
-  - Frontend to display enrolled courses.
+- Courses Collection  
+  - CRUD operations for adding and updating courses for a user.  
+  - Frontend to display enrolled courses.  
+  - Form and POST routes to allow users to add new courses via dashboard.
 
-- Goals Collection:
-  - Allow users to create and mark completed personal learning goals.
-  - Add a UI component to track progress (like checkboxes or percentage).
+- Goals Collection  
+  - Users can create and mark completed personal learning goals.  
+  - UI components include checkboxes to track progress.
+
+### Recommendations & APIs
+
+- YouTube API integration via `youtubeApi.js` in utils.
+- Basic recommendation logic implemented.
+
+### Static Assets & Client Scripts
+
+- CSS styling via `public/css/styles.css`
+- Client-side scripts: `form_validation.js`, `recommendations.js`
   
 ### Basic Project Structure
 
@@ -44,29 +55,36 @@
 ├── README.md
 ├── app.js
 ├── config
-│   ├── mongoCollection.js
+│   ├── mongoCollections.js
 │   ├── mongoConnection.js
 │   └── settings.js
 ├── data
-│   └── courses.js
-│   └── goals.js
+│   ├── courses.js
+│   ├── goals.js
 │   └── users.js
 ├── middleware
 │   └── admin.js
 ├── package-lock.json
 ├── package.json
 ├── public
-│   └── css
-│       └── styles.css
+│   ├── css
+│   │   └── styles.css
 │   └── js
+│       ├── form_validation.js
+│       └── recommendations.js
 ├── routes
 │   ├── admin.js
 │   ├── auth.js
-│   └── dashboard.js
+│   ├── dashboard.js
+│   └── recommendations.js
 ├── tasks
 │   └── seed.js
+├── utils
+│   ├── validation.js
+│   └── youtubeApi.js
 └── views
     ├── adminDashboard.handlebars
+    ├── createCourse.handlebars
     ├── dashboard.handlebars
     ├── error.handlebars
     ├── layouts
@@ -85,7 +103,6 @@
 
   - CRUD operation for removing courses for a user.
   - Build frontend forms and POST routes to allow users to add new courses via dashboard
-  - Optional: YouTube/Coursera API integration for recommendations.
 
 - Goals Collection:
   - Allow users to update and delete personal learning goals.

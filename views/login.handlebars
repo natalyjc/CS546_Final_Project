@@ -1,5 +1,5 @@
 <div class="auth-container">
-  <form method="POST" action="/login">
+  <form method="POST" action="/auth/login">
     <h2>Login</h2>
 
     <label for="email">Email:</label>
@@ -13,7 +13,7 @@
     {{#if error}}<p class="error">{{error}}</p>{{/if}}
 
     <p class="sub-link">
-      Don't have an account? <a href="/register">Register here</a>
+      Don't have an account? <a href="/auth/register">Register here</a>
     </p>
   </form>
 </div>

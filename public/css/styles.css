@@ -74,6 +74,23 @@ button:hover {
   background-color: #2563eb;
 }
 
+.auth-btns {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; 
+}
+
+.admin-dashboard-btn {
+  background-color: #8b5cf6;
+  color: white;
+}
+
+.admin-dashboard-btn:hover {
+  background-color: #7c3aed;
+}
+
 .logout-btn {
   background-color: #ef4444;
   margin-top: 30px;
@@ -117,6 +134,10 @@ button:hover {
 
 .sub-link a:hover {
   background-color: #374151;
+}
+
+.sub-link-landing {
+  margin-top: 0rem;
 }
 
 .user-table {

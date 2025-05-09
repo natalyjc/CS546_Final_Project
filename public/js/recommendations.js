@@ -1,11 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const courseTitles = document.querySelectorAll('.course-name');
-  const videoLists = document.querySelectorAll('[id^="yt-"]');
+  const courseCards = document.querySelectorAll('.course-card');
 
-  courseTitles.forEach(async (elem, i) => {
-    const title = elem.innerText;
-    const res = await fetch(`/recommendations/${encodeURIComponent(title)}`);
-    const html = await res.text();
-    videoLists[i].innerHTML = html;
+  courseCards.forEach(async (card) => {
+    const courseId = card.getAttribute('data-course-id');
+    const videoList = card.querySelector('.course-recommendations ul');
+
+    try {
+      const res = await fetch(`/recommendations/${courseId}`);
+      const html = await res.text();
+      videoList.innerHTML = html;
+    } catch {
+      videoList.innerHTML = '<li>Error loading recommendations.</li>';
+    }
   });
 });

@@ -14,7 +14,7 @@
     {{#if courses.length}}
     <ul class="course-list">
       {{#each courses}}
-      <li class="course-card">
+      <li class="course-card" data-course-id="{{this._id}}">
         <div class="course-card-header">
           <div class="course-name">{{this.title}}</div>
           <div class="course-actions">
@@ -29,9 +29,7 @@
         </div>
         <div class="course-recommendations">
           <h4>🎥 Recommended YouTube Videos:</h4>
-          <ul id="yt-{{@index}}">
-            <li>Loading videos...</li>
-          </ul>
+          <ul><li>Loading videos...</li></ul>
         </div>
       </li>
       {{/each}}

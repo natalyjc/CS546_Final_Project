@@ -176,20 +176,22 @@ h2 {
 /* CARD GRID */
 .course-list, .goal-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 2rem;
   margin-top: 1.5rem;
   padding: 0;
   list-style: none;
-  justify-items: center;
 }
 
 .course-card, .goal-card {
+  width: 100%; /* Ensures it fills the column */
+  max-width: 500px;
   background-color: #f9fafb;
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 6px 16px rgba(0,0,0,0.04);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin: 0 auto;
 }
 
 .course-card:hover, .goal-card:hover {

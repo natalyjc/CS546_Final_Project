@@ -4,6 +4,7 @@ import session from 'express-session';
 import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
+import landingRoutes from './routes/landing.js';
 
 const app = express();
 
@@ -21,19 +22,21 @@ app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
 // Route registration
-app.use('/', authRoutes);
+app.use('/', landingRoutes);
+app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/dashboard', dashboardRoutes);
 
 app.get('/', (req, res) => {
   if (req.session.user) {
+    console.log("true");
     if (req.session.user.isAdmin) {
       res.redirect('/admin');
     } else {
       res.redirect('/dashboard');
     }
   } else {
-    res.redirect('/login');
+    res.redirect('/');
   }
 });
 

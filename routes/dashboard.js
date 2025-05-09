@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   try {
     // Check if user is authenticated
     if (!req.session.user) {
-      return res.redirect('/login');
+      return res.redirect('/auth/login');
     }
 
     const userId = req.session.user._id;
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
 
 router.get('/courses/new', (req, res) => {
   if (!req.session.user) {
-    return res.redirect('/login');
+    return res.redirect('/auth/login');
   }
 
   res.render('createCourse', {

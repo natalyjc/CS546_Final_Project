@@ -1,26 +1,38 @@
 <div class="dashboard-container">
   <h2>Welcome, {{firstName}}!</h2>
-  <p>This is your personalized learning dashboard.</p>
+  <p class="dashboard-intro">This is your personalized learning dashboard. Stay on top of your goals and progress!</p>
 
   {{#if isAdmin}}
   <a href="/admin" class="admin-link">Go to Admin Dashboard</a>
   {{/if}}
 
   <div class="dashboard-section">
-    <h3>My Courses</h3>
-    <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
+    <div class="section-header">
+      <h3>📚 My Courses</h3>
+      <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
+    </div>
     {{#if courses.length}}
     <ul class="course-list">
       {{#each courses}}
       <li class="course-card">
-        <div class="course-name">{{this.title}}</div>
-        <div class="course-progress">Progress: {{this.progress}}%</div>
-        <div class="course-status">Status: {{this.status}}</div>
-
-         <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
-          <button type="submit">Delete</button>
-        </form> 
-
+        <div class="course-card-header">
+          <div class="course-name">{{this.title}}</div>
+          <div class="course-actions">
+            <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+              <button type="submit" class="delete-course-btn">🗑 Delete</button>
+            </form>
+          </div>
+        </div>
+        <div class="course-details">
+          <span class="course-progress">📈 Progress: {{this.progress}}%</span>
+          <span class="course-status">📌 Status: {{this.status}}</span>
+        </div>
+        <div class="course-recommendations">
+          <h4>🎥 Recommended YouTube Videos:</h4>
+          <ul id="yt-{{@index}}">
+            <li>Loading videos...</li>
+          </ul>
+        </div>
       </li>
       {{/each}}
     </ul>
@@ -30,12 +42,12 @@
   </div>
 
   <div class="dashboard-section">
-    <h3>My Goals</h3>
+    <h3>🎯 My Goals</h3>
     {{#if goals.length}}
     <ul class="goal-list">
       {{#each goals}}
       <li class="goal-card">
-        <div class="goal-text">{{this.goalTitle}}</div>
+        <div class="goal-text">📌 {{this.goalTitle}}</div>
         {{#if this.isCompleted}}
         <div class="goal-completed">✅ Completed</div>
         {{else}}
@@ -52,5 +64,6 @@
   <form action="/logout" method="GET">
     <button type="submit" class="logout-btn">Logout</button>
   </form>
-
 </div>
+
+<script src="/js/recommendations.js"></script>

@@ -2,10 +2,18 @@ import { connectDb } from '../config/mongoConnection.js';
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
 import { users } from '../config/mongoCollections.js';
+import { validEmail, validName, validPassword } from '../utils/validation.js';
 
 // create a new user 
 export const createUser = async (firstName, lastName, email, password, isAdmin = false) => {
-  if (!password) throw 'Password is required';
+  try{
+    firstName = validName(firstName).trim();
+    lastName = validName(lastName).trim();
+    email = validEmail(email).trim();
+    password = validPassword(password).trim();
+  }catch(e){
+    throw e;
+  }
 
   const usersCollection = await users();
 

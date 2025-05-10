@@ -69,6 +69,7 @@
 │   └── users.js
 ├── middleware
 │   └── admin.js
+│   └── auth.js
 ├── package-lock.json
 ├── package.json
 ├── public
@@ -91,10 +92,12 @@
 └── views
     ├── adminDashboard.handlebars
     ├── createCourse.handlebars
+    ├── createCourse.handlebars
     ├── dashboard.handlebars
     ├── error.handlebars
     ├── layouts
     │   └── main.handlebars
+    ├── landing.handlebars
     ├── login.handlebars
     └── register.handlebars
 ```

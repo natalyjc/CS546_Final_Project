@@ -4,6 +4,7 @@ import session from 'express-session';
 import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
+import coursesRoutes from './routes/courses.js';
 import recommendationRoutes from './routes/recommendations.js';
 
 
@@ -26,6 +27,7 @@ app.set('view engine', 'handlebars');
 app.use('/', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/courses', coursesRoutes);
 app.use('/recommendations', recommendationRoutes);
 
 app.get('/', (req, res) => {

@@ -9,7 +9,7 @@
   <div class="dashboard-section">
     <div class="section-header">
       <h3>📚 My Courses</h3>
-      <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
+      <a href="/courses/new" class="btn-create-course">➕ Add New Course</a>
     </div>
     {{#if courses.length}}
     <ul class="course-list">
@@ -18,7 +18,7 @@
         <div class="course-card-header">
           <div class="course-name">{{this.title}}</div>
           <div class="course-actions">
-            <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+            <form action="/courses/delete/{{this._id}}" method="POST">
               <button type="submit" class="delete-course-btn">🗑 Delete</button>
             </form>
           </div>

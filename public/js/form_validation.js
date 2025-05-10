@@ -18,11 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const lastName = document.getElementById('lastName').value.trim();
       const email = document.getElementById('email').value.trim();
       const password = document.getElementById('password').value;
-
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
       const firstNameInput = document.getElementById('firstName');
       const lastNameInput = document.getElementById('lastName');
       const emailInput = document.getElementById('email');
       const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
 
       const nameRegex = /^[A-Za-z]{2,}$/;
       const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
@@ -33,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let hasError = false;
 
-      if (!firstName || !nameRegex.test(firstName) || firstName.length < 2) {
-        document.getElementById('firstNameError').textContent = 'First name must be at least 2 letters, no numbers or symbols.';
+      if (!firstName || !nameRegex.test(firstName) || firstName.length < 2 || firstName.length > 50) {
+        document.getElementById('firstNameError').textContent = 'First name must be between 2 and 50 letters, no numbers or symbols.';
         firstNameInput.classList.add('error');
         firstNameInput.classList.remove('valid');
         hasError = true;
@@ -43,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
         firstNameInput.classList.add('valid');
       }
 
-      if (!lastName || !nameRegex.test(lastName) || lastName.length < 2) {
-        document.getElementById('lastNameError').textContent = 'Last name must be at least 2 letters, no numbers or symbols.';
+      if (!lastName || !nameRegex.test(lastName) || lastName.length < 2 || lastName.length > 50) {
+        document.getElementById('lastNameError').textContent = 'Last name must be at between 2 and 50, no numbers or symbols.';
         lastNameInput.classList.add('error');
         lastNameInput.classList.remove('valid');
         hasError = true;
@@ -71,6 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
         passwordInput.classList.remove('error');
         passwordInput.classList.add('valid');
+      }
+
+      if (password != confirmPassword){
+        document.getElementById('confirmPasswordError').textContent = 'Password and confirmed password must be the same.';
+        confirmPasswordInput.classList.add('error');
+        confirmPasswordInput.classList.remove('valid');
+        hasError = true;
+      } else {
+        confirmPasswordInput.classList.remove('error');
+        confirmPasswordInput.classList.add('valid');
       }
 
       if (hasError) {

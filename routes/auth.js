@@ -1,10 +1,11 @@
 import { Router } from 'express';
 import { checkUser, createUser } from '../data/users.js';
 import { validName, validEmail, validPassword } from '../utils/validation.js';
+import { loggedInRedirect } from '../middleware/auth.js';
 
 const router = Router();
 
-router.get('/login', (req, res) => {
+router.get('/login', loggedInRedirect, (req, res) => {
   res.render('login', { title: 'Login' });
 });
 
@@ -31,7 +32,7 @@ router.post('/login', async (req, res) => {
 });
 
 
-router.get('/register', (req, res) => {
+router.get('/register', loggedInRedirect, (req, res) => {
   res.render('register', { title: 'Register' });
 });
 

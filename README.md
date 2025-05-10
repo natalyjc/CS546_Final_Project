@@ -53,24 +53,29 @@
 │   └── users.js
 ├── middleware
 │   └── admin.js
+│   └── auth.js
 ├── package-lock.json
 ├── package.json
 ├── public
 │   └── css
 │       └── styles.css
 │   └── js
+│       └── form_validation.js
 ├── routes
 │   ├── admin.js
+│   ├── auth.js
 │   ├── auth.js
 │   └── dashboard.js
 ├── tasks
 │   └── seed.js
 └── views
     ├── adminDashboard.handlebars
+    ├── createCourse.handlebars
     ├── dashboard.handlebars
     ├── error.handlebars
     ├── layouts
     │   └── main.handlebars
+    ├── landing.handlebars
     ├── login.handlebars
     └── register.handlebars
 ```

@@ -5,10 +5,10 @@
 import xss from 'xss';
 
 export const validName = (name) => {
-    if(!name || typeof name !== 'string' || name.trim().length === 0) {
+    if (!name || typeof name !== 'string' || name.trim().length === 0) {
         throw 'Name must be a non-empty string';
     }
-    if(name.length < 2 || name.length > 50) {
+    if (name.length < 2 || name.length > 50) {
         throw 'Name must be between 2 and 50 characters long';
     }
     // sanitize the name to prevent XSS attacks
@@ -19,14 +19,14 @@ export const validName = (name) => {
 
 
 export const validEmail = (email) => {
-    if(!email || typeof email !== 'string' || email.trim().length === 0) {
+    if (!email || typeof email !== 'string' || email.trim().length === 0) {
         throw 'Email must be a non-empty string';
     }
     // email validation regex from  https://stackoverflow.com/questions/46155/how-can-i-validate-an-email-address-in-javascript
     const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-   
 
-    if(!emailRegex.test(email)) {
+
+    if (!emailRegex.test(email)) {
         throw 'Invalid email format';
     }
     // sanitize the email to prevent XSS attacks
@@ -36,15 +36,15 @@ export const validEmail = (email) => {
 }
 
 export const validPassword = (password) => {
-    if(!password || typeof password !== 'string' || password.trim().length === 0) {
+    if (!password || typeof password !== 'string' || password.trim().length === 0) {
         throw 'Password must be a non-empty string';
     }
 
-    if(password.length < 6 || password.length > 50) {
+    if (password.length < 6 || password.length > 50) {
         throw 'Password must be between 6 and 50 characters long';
     }
 
-    if(password.includes(' ')) {
+    if (password.includes(' ')) {
         throw 'Password cannot contain spaces';
     }
 
@@ -54,8 +54,24 @@ export const validPassword = (password) => {
     return password;
 }
 
-export default  {
+export const validCourseTitle = (title) => {
+    if (!title || typeof title !== 'string') throw 'Course title is required and must be a string';
+    title = xss(title.trim());
+    if (title.length === 0) throw 'Course title cannot be empty';
+    return title;
+};
+
+export const validateDateOrder = (start, end) => {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    if (startDate > endDate) throw 'Start date cannot be after end date';
+    return { startDate, endDate };
+};
+
+export default {
     validName,
     validEmail,
-    validPassword
+    validPassword,
+    validCourseTitle,
+    validateDateOrder
 }

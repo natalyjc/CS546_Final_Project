@@ -16,8 +16,11 @@
       {{#each courses}}
       <li class="course-card">
         <div class="course-card-header">
-          <div class="course-name">{{this.title}}</div>
+          <div class="course-name">
+            <a href="/courses/{{this._id}}" class="course-link">{{this.title}}</a>
+          </div>
           <div class="course-actions">
+            <a href="/courses/{{this._id}}/edit" class="update-course-btn">✏️ Edit</a>
             <form action="/courses/delete/{{this._id}}" method="POST">
               <button type="submit" class="delete-course-btn">🗑 Delete</button>
             </form>

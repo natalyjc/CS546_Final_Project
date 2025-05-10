@@ -50,6 +50,11 @@
   
 ### Basic Project Structure
 
+### Courses & Goals Features
+- Courses Collection
+
+  - Build frontend forms and POST routes to allow users to add new courses via dashboard
+
 ```bash
 .
 ├── README.md
@@ -74,6 +79,7 @@
 │       └── recommendations.js
 ├── routes
 │   ├── admin.js
+|   ├── courses.js
 │   ├── auth.js
 │   ├── dashboard.js
 │   └── recommendations.js
@@ -99,10 +105,6 @@
 
 ### Courses & Goals Features
 
-- Courses Collection
-
-  - CRUD operation for removing courses for a user.
-  - Build frontend forms and POST routes to allow users to add new courses via dashboard
 
 - Goals Collection:
   - Allow users to update and delete personal learning goals.

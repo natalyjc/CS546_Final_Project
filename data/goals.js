@@ -15,9 +15,16 @@ export const getGoalsByUserId = async (userId) => {
 export const createGoal = async (userId, goalTitle, targetDate) => {
   if (!userId || !goalTitle || !targetDate) throw 'All fields are required';
 
+  const [month, day, year] = targetDate.split('/');
+  const target = new Date(`${year}-${month}-${day}`);
   const today = new Date();
-  const target = new Date(targetDate);
-  if (target <= today) throw 'Target date must be after today';
+
+  target.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
+  if (target <= today) {
+    throw 'Target date must be after today';
+  }  
 
   const goalsCollection = await goals();
 

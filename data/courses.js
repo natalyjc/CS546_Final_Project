@@ -31,13 +31,17 @@ export const getCourseById = async (id) => {
 // create a new course for a user
 export const createCourse = async (userId, title, notes='', startDate, endDate) => {
   if (!userId || !title || !startDate || !endDate) throw 'All fields are required';
-
-  const start = new Date(startDate);
-  const end = new Date(endDate);
+  
+  const [startMonth, startDay, startYear] = startDate.split('/');
+  const [endMonth, endDay, endYear] = endDate.split('/');
+  const start = new Date(`${startYear}-${startMonth}-${startDay}`);
+  const end = new Date(`${endYear}-${endMonth}-${endDay}`);
   const today = new Date();
-  today.setHours(0, 0, 0, 0); // Normalize for date-only comparison
 
-  if (start < today) throw 'Start date cannot be before today';
+  start.setHours(0, 0, 0, 0);
+  end.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
+
   if (end < today) throw 'End date cannot be before today';
   if (end < start) throw 'End date must be after start date';
   

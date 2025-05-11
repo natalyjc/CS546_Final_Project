@@ -38,3 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+
+document.getElementById('toggleAssignmentForm').onclick = () => {
+    const form = document.getElementById('assignmentFormContainer');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  };
+
+document.getElementById('toggleResourceForm').onclick = () => {
+    const form = document.getElementById('resourceFormContainer');
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  };

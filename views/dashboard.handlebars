@@ -1,86 +1,136 @@
 <div class="dashboard-container">
   <h2>Welcome, {{firstName}}!</h2>
-  <p>This is your personalized learning dashboard. Stay on top of your goals and progress!</p>
-  
+  <p class="dashboard-intro">This is your personalized learning dashboard. Stay on top of your goals and progress!</p>
+
   {{#if isAdmin}}
   <a href="/admin" class="admin-link">Go to Admin Dashboard</a>
   {{/if}}
 
-  <div class="dashboard-section">
-    <div class="section-header">
-      <h3>📚 My Courses</h3>
-      <a href="/courses/new" class="btn-create-course">➕ Add New Course</a>
-    </div>
+  <form action="/dashboard/preferences" method="POST" class="widget-settings-form">
+    <label>
+      <input type="checkbox" name="showCourses" {{#if dashboardPreferences.showCourses}}checked{{/if}}>
+      📚 Show Courses
+    </label>
+    <label>
+      <input type="checkbox" name="showGoals" {{#if dashboardPreferences.showGoals}}checked{{/if}}>
+      🎯 Show Goals
+    </label>
+    <label>
+      <input type="checkbox" name="showRecommendations" {{#if dashboardPreferences.showRecommendations}}checked{{/if}}>
+      🌐 Show Recommendations
+    </label>
+    <button type="submit">Save Preferences</button>
+  </form>
 
-    {{#if courses.length}}
-    <ul class="course-list">
-      {{#each courses}}
-      <li class="course-card" data-course-id="{{this._id}}">
-        <div class="course-card-header">
-          <div class="course-name">{{this.title}}</div>
-          <div class="course-actions">
-            <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
-              <button type="submit" class="delete-course-btn">🗑 Delete</button>
-            </form>
-          </div>
+  <div class="dashboard-grid">
+
+    {{#if dashboardPreferences.showCourses}}
+    <div class="resizable-box" style="width: {{layoutPrefs.courses.width}}; height: {{layoutPrefs.courses.height}}">
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h3>📚 My Courses</h3>
+          <a href="/courses/new" class="btn-create-course">➕ Add New Course</a>
         </div>
-        <div class="course-details">
-          <span class="course-status">📌 Status: {{this.status}}</span>
-          <button class="toggle-progress-btn">📈 View Progress</button>
 
-          <div class="progress-container" style="display: none;">
-            <canvas class="progress-chart" width="200" height="200"></canvas>
+        {{#if courses.length}}
+        <ul class="course-list">
+          {{#each courses}}
+          <li class="course-card" data-course-id="{{this._id}}">
+            <div class="course-card-header">
+              <div class="course-name">{{this.title}}</div>
+              <div class="course-actions">
+                <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+                  <button type="submit" class="delete-course-btn">🗑 Delete</button>
+                </form>
+              </div>
+            </div>
+            <div class="course-details">
+              <span class="course-status">📌 Status: {{this.status}}</span>
+              <button class="toggle-progress-btn">📈 View Progress</button>
 
-            <div class="progress-mode-selector">
-              <label>Choose Progress Mode:</label>
-              <select class="progress-mode">
-                <option value="" selected disabled>Select</option>
-                <option value="assignments">Assignments Completed</option>
-                <option value="dates">Start-End Date</option>
-              </select>
+              <div class="progress-container" style="display: none;">
+                <canvas class="progress-chart" width="200" height="200"></canvas>
+
+                <div class="progress-mode-selector">
+                  <label>Choose Progress Mode:</label>
+                  <select class="progress-mode">
+                    <option value="" selected disabled>Select</option>
+                    <option value="assignments">Assignments Completed</option>
+                    <option value="dates">Start-End Date</option>
+                  </select>
+                </div>
+
+                <div class="assignments-inputs" style="display: none;">
+                  <input type="number" class="completed" placeholder="Completed Assignments" min="0" />
+                  <input type="number" class="total" placeholder="Total Assignments" min="1" />
+                </div>
+
+                <div class="dates-inputs" style="display: none;">
+                  <input type="date" class="start-date" />
+                  <input type="date" class="end-date" />
+                </div>
+              </div>
             </div>
 
-            <div class="assignments-inputs" style="display: none;">
-              <input type="number" class="completed" placeholder="Completed Assignments" min="0" />
-              <input type="number" class="total" placeholder="Total Assignments" min="1" />
+            {{#if ../dashboardPreferences.showRecommendations}}
+            <div class="course-recommendations">
+              <h4>🎥 Recommended YouTube Videos:</h4>
+              <ul><li>Loading videos...</li></ul>
             </div>
-
-            <div class="dates-inputs" style="display: none;">
-              <input type="date" class="start-date" />
-              <input type="date" class="end-date" />
-            </div>
-          </div>
-        </div>
-        <div class="course-recommendations">
-          <h4>🎥 Recommended YouTube Videos:</h4>
-          <ul><li>Loading videos...</li></ul>
-        </div>
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p>No courses added yet.</p>
-    {{/if}}
-  </div>
-
-  <div class="dashboard-section">
-    <h3>🎯 My Goals</h3>
-    {{#if goals.length}}
-    <ul class="goal-list">
-      {{#each goals}}
-      <li class="goal-card">
-        <div class="goal-text">📌 {{this.goalTitle}}</div>
-        {{#if this.isCompleted}}
-        <div class="goal-completed">✅ Completed</div>
+            {{/if}}
+          </li>
+          {{/each}}
+        </ul>
         {{else}}
-        <div class="goal-pending">🚀 In Progress</div>
+        <p>No courses added yet.</p>
         {{/if}}
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p>No goals added yet.</p>
+      </div>
+    </div>
     {{/if}}
+
+    {{#if dashboardPreferences.showGoals}}
+    <div class="resizable-box" style="width: {{layoutPrefs.goals.width}}; height: {{layoutPrefs.goals.height}}">
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h3>🎯 My Goals</h3>
+          <a href="/dashboard/goals/new" class="btn-create-course">➕ Add New Goal</a>
+        </div>
+
+        {{#if goals.length}}
+        <ul class="goal-list">
+          {{#each goals}}
+            {{#if this.isCompleted}}
+              <li class="goal-card completed-goal" style="display: none;">
+                <div class="goal-text">📌 {{this.goalTitle}}</div>
+                <div class="goal-target-date">🎯 Target Date: {{this.targetDate}}</div>
+                <div class="goal-completed">✅ Completed</div>
+              </li>
+            {{else}}
+              <li class="goal-card">
+                <div class="goal-card-content">
+                  <div class="goal-info">
+                    <div class="goal-title">📌 {{this.goalTitle}}</div>
+                    <div class="goal-date">🎯 Target Date: {{this.targetDate}}</div>
+                  </div>
+                  <div class="goal-status-actions">
+                    <span class="goal-status in-progress">🚀 In Progress</span>
+                    <form action="/dashboard/goals/complete/{{this._id}}" method="POST">
+                      <button type="submit" class="btn-primary mark-complete-btn">Mark as Completed</button>
+                    </form>
+                  </div>
+                </div>
+              </li>
+            {{/if}}
+          {{/each}}
+        </ul>
+        <button id="toggle-completed-btn" class="btn-create-course" style="margin-top: 1rem;">Show Completed Goals</button>
+        {{else}}
+        <p>No goals added yet.</p>
+        {{/if}}
+      </div>
+    </div>
+    {{/if}}
+
   </div>
 
   <form action="/auth/logout" method="GET">
@@ -88,5 +138,7 @@
   </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/js/recommendations.js"></script>
+<script src="/js/goalsToggle.js"></script>
+<script src="/js/dashboardresize.js"></script>
 <script src="/js/dashboard.js"></script>

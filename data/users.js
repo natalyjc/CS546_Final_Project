@@ -1,7 +1,7 @@
-import { connectDb } from '../config/mongoConnection.js';
 import bcrypt from 'bcryptjs';
 import { ObjectId } from 'mongodb';
 import { users } from '../config/mongoCollections.js';
+import { connectDb } from '../config/mongoConnection.js';
 import { validEmail, validName, validPassword } from '../utils/validation.js';
 
 // create a new user 
@@ -28,7 +28,12 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
     email,
     hashedPassword: hashed,
     createdAt: new Date(),
-    isAdmin
+    isAdmin,
+    dashboardPreferences: {
+      showGoals: true,
+      showCourses: true,
+      showRecommendations: true
+    }
   };
 
   const result = await usersCollection.insertOne(newUser);

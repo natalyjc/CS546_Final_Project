@@ -1,0 +1,16 @@
+<div class="form-container">
+  <h2 class="form-title">Create New Goal</h2>
+  <form action="/dashboard/goals" method="POST">
+    {{#if error}}
+      <div class="error-message">{{error}}</div>
+    {{/if}}
+
+    <label for="goalTitle">Goal Title:</label>
+    <input type="text" id="goalTitle" name="goalTitle" required />
+
+    <label for="targetDate">Target Date:</label>
+    <input type="date" id="targetDate" name="targetDate" required min="{{todayDate}}" />
+
+    <button class="btn-primary" type="submit">Create Goal</button>
+  </form>
+</div>

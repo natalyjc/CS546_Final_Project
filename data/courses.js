@@ -32,6 +32,15 @@ export const getCourseById = async (id) => {
 export const createCourse = async (userId, title, notes='', startDate, endDate) => {
   if (!userId || !title || !startDate || !endDate) throw 'All fields are required';
 
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0); // Normalize for date-only comparison
+
+  if (start < today) throw 'Start date cannot be before today';
+  if (end < today) throw 'End date cannot be before today';
+  if (end < start) throw 'End date must be after start date';
+  
   const coursesCollection = await courses();
 
   const newCourse = {

@@ -13,7 +13,6 @@ import { loggedOutRedirect } from '../middleware/auth.js';
 
 router.get('/', loggedOutRedirect,async (req, res) => {
   try {
-    if (!req.session.user) return res.redirect('/login');
 
     const userId = req.session.user._id;
     const user = await getUserById(userId);
@@ -54,11 +53,8 @@ router.get('/courses/new', (req, res) => {
 });
 
 
-router.post('/courses', async (req, res) => {
+router.post('/courses', loggedOutRedirect, async (req, res) => {
 
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
   const userId = req.session.user._id;
   const { title, startDate, endDate, status } = req.body;
 
@@ -99,10 +95,8 @@ router.post('/courses/delete/:id', async (req, res) => {
   }
 });
 
-router.get('/goals/new', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
+router.get('/goals/new', loggedOutRedirect, (req, res) => {
+
   res.render('createGoal', { 
     title: 'Create New Goal',
     todayDate: today

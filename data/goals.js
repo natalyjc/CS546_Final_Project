@@ -12,8 +12,8 @@ export const getGoalsByUserId = async (userId) => {
 };
 
 // create a new goal for a user
-export const createGoal = async (userId, courseId, goalTitle, targetDate) => {
-  if (!userId || !courseId || !goalTitle || !targetDate) throw 'All fields are required';
+export const createGoal = async (userId, goalTitle, targetDate) => {
+  if (!userId || !goalTitle || !targetDate) throw 'All fields are required';
 
   const today = new Date();
   const target = new Date(targetDate);
@@ -23,7 +23,6 @@ export const createGoal = async (userId, courseId, goalTitle, targetDate) => {
 
   const newGoal = {
     userId: userId.toString(),
-    courseId,
     goalTitle,
     targetDate,
     isCompleted: false

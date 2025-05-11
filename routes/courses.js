@@ -74,9 +74,14 @@ router.post('/:id/assignments', loggedOutRedirect, async (req, res) => {
 
 router.get('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async (req, res) => {
   const course = await courses().then(c => c.findOne({ _id: new ObjectId(req.params.courseId) }));
+
   const assignment = course?.assignments?.find(a => a.assignmentId === req.params.assignmentId);
+
   if (!assignment) return res.status(404).render('error', { error: 'Assignment not found' });
-  res.render('editAssignment', { courseId: req.params.courseId, assignment });
+
+  const formattedDueDate = new Date(assignment.dueDate).toISOString().slice(0, 16); 
+
+  res.render('editAssignment', { courseId: req.params.courseId, assignment, formattedDueDate });
 });
 
 router.post('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async (req, res) => {
@@ -85,6 +90,8 @@ router.post('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, asyn
     title = checkEmpty(title, "Title");
     description = checkEmpty(description, "Description");
     dueDate = validDate(dueDate);
+
+
     const result = await courses().then(c =>
       c.updateOne(
         { _id: new ObjectId(req.params.courseId), 'assignments.assignmentId': req.params.assignmentId },
@@ -97,7 +104,14 @@ router.post('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, asyn
         }
       )
     );
-    if (result.modifiedCount === 0) throw 'Assignment update failed';
+    if (result.matchedCount === 0) {
+      throw 'Assignment not found — update failed';
+    }
+    
+    if (result.modifiedCount === 0) {
+      console.warn('No changes were made to the assignment.');
+    }
+
     res.redirect(`/courses/${req.params.courseId}`);
   } catch (e) {
     res.status(400).render('error', { error: e.toString() });

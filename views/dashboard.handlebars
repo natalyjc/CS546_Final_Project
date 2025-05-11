@@ -11,9 +11,56 @@
       <h3>📚 My Courses</h3>
       <a href="/courses/new" class="btn-create-course">➕ Add New Course</a>
     </div>
-    <div id="courseContainer">
-      <p>Loading courses...</p>
-    </div>
+
+    {{#if courses.length}}
+    <ul class="course-list">
+      {{#each courses}}
+      <li class="course-card" data-course-id="{{this._id}}">
+        <div class="course-card-header">
+          <div class="course-name">{{this.title}}</div>
+          <div class="course-actions">
+            <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+              <button type="submit" class="delete-course-btn">🗑 Delete</button>
+            </form>
+          </div>
+        </div>
+        <div class="course-details">
+          <span class="course-status">📌 Status: {{this.status}}</span>
+          <button class="toggle-progress-btn">📈 View Progress</button>
+
+          <div class="progress-container" style="display: none;">
+            <canvas class="progress-chart" width="200" height="200"></canvas>
+
+            <div class="progress-mode-selector">
+              <label>Choose Progress Mode:</label>
+              <select class="progress-mode">
+                <option value="" selected disabled>Select</option>
+                <option value="assignments">Assignments Completed</option>
+                <option value="dates">Start-End Date</option>
+              </select>
+            </div>
+
+            <div class="assignments-inputs" style="display: none;">
+              <input type="number" class="completed" placeholder="Completed Assignments" min="0" />
+              <input type="number" class="total" placeholder="Total Assignments" min="1" />
+            </div>
+
+            <div class="dates-inputs" style="display: none;">
+              <input type="date" class="start-date" />
+              <input type="date" class="end-date" />
+            </div>
+          </div>
+        </div>
+        <div class="course-recommendations">
+          <h4>🎥 Recommended YouTube Videos:</h4>
+          <ul><li>Loading videos...</li></ul>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
+    {{else}}
+    <p>No courses added yet.</p>
+    {{/if}}
   </div>
 
   <div class="dashboard-section">

@@ -1,0 +1,14 @@
+<h2>Edit Assignment</h2>
+<form action="/courses/{{courseId}}/assignments/{{assignment.assignmentId}}/edit" method="POST">
+  <label>Title:</label>
+  <input type="text" name="title" value="{{assignment.title}}" required>
+
+  <label>Description:</label>
+  <textarea name="description" required>{{assignment.description}}</textarea>
+
+  <label>Due Date:</label>
+  <input type="date" name="dueDate" value="{{assignment.dueDate}}" required>
+
+  <button type="submit">Save Changes</button>
+</form>
+<a href="/courses/{{courseId}}">Cancel</a>

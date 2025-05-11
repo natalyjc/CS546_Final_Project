@@ -1,0 +1,120 @@
+<div class="course-view-container">
+  <h2>{{course.title}}</h2>
+
+  <p><strong>Status:</strong> {{course.status}}</p>
+  <p><strong>Progress:</strong> {{course.progress}}%</p>
+  <p><strong>Start Date:</strong> {{course.startDate}}</p>
+  <p><strong>End Date:</strong> {{course.endDate}}</p>
+  <p><strong>Notes:</strong> {{course.notes}}</p>
+
+  <h3>🔗 Resources</h3>
+{{#if course.resources.length}}
+  <ul>
+    {{#each course.resources}}
+      <li>
+        <a href="{{this.link}}" target="_blank">{{this.title}}</a><br>
+
+        <!-- Edit + Delete Buttons -->
+        <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/edit" method="GET" style="display:inline;">
+          <button type="submit" class="btn-secondary">✏️ Edit</button>
+        </form>
+        <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/delete" method="POST" style="display:inline;">
+          <button type="submit" class="btn-danger">🗑 Delete</button>
+        </form>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No resources yet.</p>
+{{/if}}
+
+
+  <h3>📝 Assignments</h3>
+{{#if course.assignments.length}}
+  <ul>
+    {{#each course.assignments}}
+      <li>
+        <strong>{{this.title}}</strong> — due {{this.dueDate}}<br />
+        <em>{{this.description}}</em><br />
+
+        {{#if this.isCompleted}}
+          ✅ Completed on {{this.completedDate}}<br />
+        {{else}}
+          <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/complete" method="POST" style="display:inline;">
+            <button type="submit" class="btn-secondary">📬 Submit</button>
+          </form>
+        {{/if}}
+
+        <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/edit" method="GET" style="display:inline;">
+          <button type="submit" class="btn-secondary">✏️ Edit</button>
+        </form>
+        <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/delete" method="POST" style="display:inline;">
+          <button type="submit" class="btn-danger">🗑 Delete</button>
+        </form>
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No assignments yet.</p>
+{{/if}}
+
+
+ 
+
+
+  <button id="toggleAssignmentForm" class="btn-secondary">➕ Add Assignment</button>
+
+  <div id="assignmentFormContainer" style="display: none; margin-top: 1rem;">
+    <form action="/courses/{{course._id}}/assignments" method="POST">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" required>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" required></textarea>
+
+      <label for="dueDate">Due Date:</label>
+      <input type="date" id="dueDate" name="dueDate" required>
+
+      <button type="submit">Add Assignment</button>
+    </form>
+  </div>
+
+
+  <button id="toggleResourceForm" class="btn-secondary">➕ Add Resource</button>
+
+  <div id="resourceFormContainer" style="display: none; margin-top: 1rem;">
+    <form action="/courses/{{course._id}}/resources" method="POST">
+      <label for="resourceTitle">Title:</label>
+      <input type="text" id="resourceTitle" name="title" required>
+
+      <label for="resourceLink">Link:</label>
+      <input type="url" id="resourceLink" name="link" required>
+
+      <button type="submit">Add Resource</button>
+    </form>
+  </div>
+
+ <a href="/dashboard" class="btn-back">⬅ Back to Dashboard</a>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const btn = document.getElementById('toggleAssignmentForm');
+      const form = document.getElementById('assignmentFormContainer');
+
+      btn.addEventListener('click', () => {
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+      });
+    });
+  </script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const resourceBtn = document.getElementById('toggleResourceForm');
+      const resourceForm = document.getElementById('resourceFormContainer');
+
+      resourceBtn.addEventListener('click', () => {
+        resourceForm.style.display = resourceForm.style.display === 'none' ? 'block' : 'none';
+      });
+    });
+  </script>

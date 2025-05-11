@@ -1,21 +1,24 @@
-<h2>Create New Course</h2>
-<form action="/dashboard/courses" method="POST">
+<div class="form-container">
+  <h2 class="form-title">Create New Course</h2>
+  <form action="/courses" method="POST">
+    {{#if error}}
+      <div class="error-message">{{error}}</div>
+    {{/if}}
 
-{{#if error}}
-  <div class="error-message" style="color: red;">
-    {{error}}
-  </div>
-{{/if}}
-  <label for="title">Course Title:</label><br>
-  <input type="text" id="title" name="title" required><br>
+    <label for="title">Course Title:</label>
+    <input type="text" id="title" name="title" required />
 
-  <label for="startDate">Start Date:</label><br>
-  <input type="date" id="startDate" name="startDate" required><br>
+    <label for="notes"> Notes / Comments:</label>
+    <textarea id="notes" name="notes" rows="4" cols="50" placeholder="Add any course notes or comments"></textarea>
 
-  <label for="endDate">End Date:</label><br>
-  <input type="date" id="endDate" name="endDate" required><br>
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" required />
 
-  
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" required />
 
-  <button type="submit">Create Course</button>
-</form>
+    <button class="btn-primary" type="submit">Create Course</button>
+  </form>
+</div>
+
+<script src ="/js/validateCourse.js" > </script>

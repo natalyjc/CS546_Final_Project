@@ -5,6 +5,9 @@ import adminRoutes from './routes/admin.js';
 import authRoutes from './routes/auth.js';
 import dashboardRoutes from './routes/dashboard.js';
 import landingRoutes from './routes/landing.js';
+import coursesRoutes from './routes/courses.js';
+import recommendationRoutes from './routes/recommendations.js';
+
 
 const app = express();
 
@@ -26,6 +29,8 @@ app.use('/', landingRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
 app.use('/dashboard', dashboardRoutes);
+app.use('/courses', coursesRoutes);
+app.use('/recommendations', recommendationRoutes);
 
 app.get('/', (req, res) => {
   if (req.session.user) {

@@ -1,0 +1,22 @@
+<div class="form-container">
+  <h2 class="form-title">Edit Course</h2>
+
+  {{#if error}}
+    <div class="error-message">{{error}}</div>
+  {{/if}}
+
+  <form action="/courses/{{course._id}}/update" method="POST">
+    <label for="title">Course Title:</label>
+    <input type="text" id="title" name="title" value="{{course.title}}" required />
+
+    <label for="startDate">Start Date:</label>
+    <input type="date" id="startDate" name="startDate" value="{{course.startDate}}" required />
+
+    <label for="endDate">End Date:</label>
+    <input type="date" id="endDate" name="endDate" value="{{course.endDate}}" required />
+
+    <button type="submit" class="btn-primary">Update Course</button>
+  </form>
+</div>
+
+<script src="/js/validateCourse.js"></script>

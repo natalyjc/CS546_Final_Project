@@ -35,15 +35,9 @@ $(document).ready(function() {
                   </div>
                 </li>
               `);
-              
-              // Append course element to course list
               courseListContainer.append(courseElement);
             });
-            
-            // Replace/append the course list to the container
             $('#courseContainer').html(courseListContainer);
-            
-            // Now fetch video recommendations for each course
           } else {
             $('#courseContainer').html('<p>No courses added yet.</p>');
           }

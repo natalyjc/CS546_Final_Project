@@ -4,13 +4,10 @@ const router = express.Router();
 import { getCoursesByUserId, deleteCourse, createCourse } from '../data/courses.js';
 import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
+import { loggedOutRedirect } from '../middleware/auth.js';
 
-router.get('/', async (req, res) => {
+router.get('/', loggedOutRedirect,async (req, res) => {
   try {
-    // Check if user is authenticated
-    if (!req.session.user) {
-      return res.redirect('/auth/login');
-    }
 
     const userId = req.session.user._id;
 

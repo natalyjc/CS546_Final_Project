@@ -13,15 +13,15 @@ import { getUserById } from '../data/users.js';
 import { checkEmpty, validCourseTitle, validDate, validateDateOrder } from '../utils/validation.js';
 import { courses } from '../config/mongoCollections.js';
 import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
+import { loggedOutRedirect } from '../middleware/auth.js';
 
 // --- Course Creation ---
-router.get('/new', (req, res) => {
+router.get('/new', loggedOutRedirect, (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   res.render('createCourse', { title: 'Create New Course' });
 });
 
-router.post('/', async (req, res) => {
-  if (!req.session.user) return res.redirect('/login');
+router.post('/', loggedOutRedirect, async (req, res) => {
   const userId = req.session.user._id;
   let { title, notes, startDate, endDate } = req.body;
   try {
@@ -36,7 +36,7 @@ router.post('/', async (req, res) => {
 });
 
 // --- Course View ---
-router.get('/:id', async (req, res) => {
+router.get('/:id', loggedOutRedirect, async (req, res) => {
   try {
     const course = await getCourseById(req.params.id);
     res.render('courseView', { course, title: course.title });
@@ -46,7 +46,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // --- Assignments ---
-router.post('/:id/assignments', async (req, res) => {
+router.post('/:id/assignments', loggedOutRedirect, async (req, res) => {
   try {
     let { title, description, dueDate } = req.body;
     title = checkEmpty(title, "Title");
@@ -73,14 +73,14 @@ router.post('/:id/assignments', async (req, res) => {
   }
 });
 
-router.get('/:courseId/assignments/:assignmentId/edit', async (req, res) => {
+router.get('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async (req, res) => {
   const course = await courses().then(c => c.findOne({ _id: new ObjectId(req.params.courseId) }));
   const assignment = course?.assignments?.find(a => a.assignmentId === req.params.assignmentId);
   if (!assignment) return res.status(404).render('error', { error: 'Assignment not found' });
   res.render('editAssignment', { courseId: req.params.courseId, assignment });
 });
 
-router.post('/:courseId/assignments/:assignmentId/edit', async (req, res) => {
+router.post('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async (req, res) => {
   try {
     let { title, description, dueDate } = req.body;
     title = checkEmpty(title, "Title");
@@ -105,7 +105,7 @@ router.post('/:courseId/assignments/:assignmentId/edit', async (req, res) => {
   }
 });
 
-router.post('/:courseId/assignments/:assignmentId/complete', async (req, res) => {
+router.post('/:courseId/assignments/:assignmentId/complete', loggedOutRedirect, async (req, res) => {
   try {
     await courses().then(c =>
       c.updateOne(
@@ -119,7 +119,7 @@ router.post('/:courseId/assignments/:assignmentId/complete', async (req, res) =>
   }
 });
 
-router.post('/:courseId/assignments/:assignmentId/delete', async (req, res) => {
+router.post('/:courseId/assignments/:assignmentId/delete', loggedOutRedirect, async (req, res) => {
   try {
     await courses().then(c =>
       c.updateOne(
@@ -134,7 +134,7 @@ router.post('/:courseId/assignments/:assignmentId/delete', async (req, res) => {
 });
 
 // --- Resources ---
-router.post('/:id/resources', async (req, res) => {
+router.post('/:id/resources', loggedOutRedirect, async (req, res) => {
   try {
     let { title, link } = req.body;
     title = checkEmpty(title);
@@ -159,7 +159,7 @@ router.post('/:id/resources', async (req, res) => {
   }
 });
 
-router.get('/:courseId/resources/:resourceId/edit', async (req, res) => {
+router.get('/:courseId/resources/:resourceId/edit', loggedOutRedirect, async (req, res) => {
   try {
     const course = await courses().then(c => c.findOne({ _id: new ObjectId(req.params.courseId) }));
     const resource = course?.resources?.find(r => r.resourceId === req.params.resourceId);
@@ -170,7 +170,7 @@ router.get('/:courseId/resources/:resourceId/edit', async (req, res) => {
   }
 });
 
-router.post('/:courseId/resources/:resourceId/edit', async (req, res) => {
+router.post('/:courseId/resources/:resourceId/edit', loggedOutRedirect, async (req, res) => {
   try {
     let { title, link } = req.body;
     title = checkEmpty(title);
@@ -188,7 +188,7 @@ router.post('/:courseId/resources/:resourceId/edit', async (req, res) => {
   }
 });
 
-router.post('/:courseId/resources/:resourceId/delete', async (req, res) => {
+router.post('/:courseId/resources/:resourceId/delete', loggedOutRedirect, async (req, res) => {
   try {
     const result = await courses().then(c =>
       c.updateOne(
@@ -204,7 +204,7 @@ router.post('/:courseId/resources/:resourceId/delete', async (req, res) => {
 });
 
 // --- Delete Course ---
-router.post('/delete/:id', async (req, res) => {
+router.post('/delete/:id', loggedOutRedirect, async (req, res) => {
   try {
     const userId = req.session.user._id;
     await deleteCourse(req.params.id, userId);
@@ -226,7 +226,7 @@ router.post('/delete/:id', async (req, res) => {
 });
 
 // --- Edit Course ---
-router.get('/:id/edit', async (req, res) => {
+router.get('/:id/edit', loggedOutRedirect, async (req, res) => {
   try {
     const course = await getCourseById(req.params.id);
     res.render('editCourse', { course });
@@ -235,7 +235,7 @@ router.get('/:id/edit', async (req, res) => {
   }
 });
 
-router.post('/:id/update', async (req, res) => {
+router.post('/:id/update', loggedOutRedirect, async (req, res) => {
   try {
     const { title, startDate, endDate } = req.body;
     const courseId = req.params.id;

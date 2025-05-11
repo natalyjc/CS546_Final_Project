@@ -55,13 +55,20 @@
   - Course completion progress.
   - Weekly learning time (still in progress)
   - Goal progress over time (still in progress)
+  - 
+### Courses & Goals Features
 
-### Basic Project Structure
+- Goals Collection:
+  - Allow users to update and delete personal learning goals.
+  - Build frontend forms and POST routes to allow users to add new goals via dashboard
+  - Add targetDate to UI
+  - 
 
 ### Courses & Goals Features
 - Courses Collection
-
   - Build frontend forms and POST routes to allow users to add new courses via dashboard
+
+### Basic Project Structure
 
 ```bash
 .
@@ -114,14 +121,6 @@
 ---
 
 ## 🛠️ To-Do / In Progress
-
-### Courses & Goals Features
-
-
-- Goals Collection:
-  - Allow users to update and delete personal learning goals.
-  - Build frontend forms and POST routes to allow users to add new goals via dashboard
-  - Add targetDate to UI
   
 #### Gamification & Engagement (Extra Features)
 
@@ -134,12 +133,6 @@
 - Input validation for user registration and login.
 - Try-catch wrappers across all route logic.
 - User-friendly error messages in the UI.
-
-#### Custom Dashboard per User
-
-- Users should see:
-  - Their own set of courses/goals.
-  - Personalized content or learning feed.
   
 #### Security Improvements
 

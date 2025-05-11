@@ -55,3 +55,36 @@ export const markGoalCompleted = async (goalId) => {
   if (result.modifiedCount === 0) throw 'Could not mark goal as completed';
   return true;
 };
+
+export const updateGoal = async (goalId, goalTitle, targetDate) => {
+  if (!goalId || !goalTitle || !targetDate) throw 'All fields required';
+
+  const goalsCollection = await goals();
+
+  const result = await goalsCollection.updateOne(
+    { _id: new ObjectId(goalId) },
+    { $set: { goalTitle, targetDate } }
+  );
+
+  if (result.modifiedCount === 0) throw 'Goal update failed';
+  return true;
+};
+
+export const deleteGoal = async (goalId) => {
+  const goalsCollection = await goals();
+  const result = await goalsCollection.deleteOne({ _id: new ObjectId(goalId) });
+  if (result.deletedCount === 0) throw 'Failed to delete goal';
+  return true;
+};
+
+export const getGoalById = async (goalId) => {
+  if (!goalId || typeof goalId !== 'string' || !ObjectId.isValid(goalId)) {
+    throw 'Invalid goal ID';
+  }
+
+  const goalsCollection = await goals();
+  const goal = await goalsCollection.findOne({ _id: new ObjectId(goalId) });
+
+  if (!goal) throw 'Goal not found';
+  return goal;
+};

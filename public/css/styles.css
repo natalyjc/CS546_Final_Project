@@ -539,14 +539,21 @@ button, .btn-create-course, .logout-btn {
 .resizable-box {
   resize: both;
   overflow: auto;
-  min-width: 300px;
-  min-height: 200px;
+  min-width: 320px;
+  min-height: 250px;
   max-width: 100%;
-  padding: 0.5rem;
+  padding: 1rem;
   box-sizing: border-box;
-  border: 1.5px dashed #cbd5e1;
-  border-radius: 8px;
+  border: none; 
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
   margin-bottom: 2rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.resizable-box:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
 .dashboard-section {
@@ -557,8 +564,8 @@ button, .btn-create-course, .logout-btn {
 .dashboard-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: flex-start;
+  gap: 2rem;
+  align-items: stretch;
 }
 
 .goal-card {
@@ -811,4 +818,25 @@ button.submit-btn:hover {
 
 button.btn-primary {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.goal-status-actions form {
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.mark-complete-btn {
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.course-recommendations ul {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.resizable-box {
+  resize: both;
+  overflow: auto;
 }

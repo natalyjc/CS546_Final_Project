@@ -2,9 +2,8 @@ import express from 'express';
 const router = express.Router();
 
 import { getCoursesByUserId, deleteCourse, createCourse } from '../data/courses.js';
-import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
-import { createGoal, markGoalCompleted } from '../data/goals.js';
+import { getGoalsByUserId, getGoalById, createGoal, markGoalCompleted, updateGoal, deleteGoal } from '../data/goals.js';
 import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
 
@@ -117,6 +116,32 @@ router.post('/goals', async (req, res) => {
     });
   }
 });
+
+// GET: Edit form
+router.get('/goals/:goalId/edit', async (req, res) => {
+  const goal = await getGoalById(req.params.goalId);
+  res.render('editGoal', { goal });
+});
+
+// POST: Save edits
+router.post('/goals/:goalId/edit', async (req, res) => {
+  try {
+    await updateGoal(req.params.goalId, req.body.goalTitle, req.body.targetDate);
+    res.redirect('/dashboard');
+  } catch (e) {
+    res.status(400).render('editGoal', { error: e, goal: req.body });
+  }
+});
+
+router.post('/goals/:goalId/delete', async (req, res) => {
+  try {
+    await deleteGoal(req.params.goalId);
+    res.redirect('/dashboard');
+  } catch (e) {
+    res.status(500).send(e);
+  }
+});
+
 
 router.post('/goals/complete/:id', async (req, res) => {
   try {

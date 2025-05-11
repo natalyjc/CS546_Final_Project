@@ -840,3 +840,21 @@ button.btn-primary {
   resize: both;
   overflow: auto;
 }
+
+.course-detail-container details summary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.5rem 0;
+  color: #1a73e8;
+}
+
+.course-detail-container .dropdown-arrow {
+  transition: transform 0.2s ease;
+}
+
+.course-detail-container details[open] .dropdown-arrow {
+  transform: rotate(90deg);
+}

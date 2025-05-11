@@ -1,7 +1,6 @@
 <div class="course-detail-container">
   <h2 class="course-detail-title">{{course.title}}</h2>
   <div class="course-meta">
-    <span><strong>Status:</strong> {{course.status}}</span>
     <span><strong>Progress:</strong> {{course.progress}}%</span>
     <span><strong>Start:</strong> {{course.startDate}}</span>
     <span><strong>End:</strong> {{course.endDate}}</span>
@@ -36,36 +35,49 @@
   </div>
 
   <div>
-    <h3>📝 Assignments</h3>
-    {{#if course.assignments.length}}
-      <ul>
+  <h3>📝 Assignments</h3>
+  {{#if course.assignments.length}}
+    <ul>
       {{#each course.assignments}}
+        {{#unless this.isCompleted}}
+        <!-- Incomplete assignments -->
         <li>
           <strong>{{this.title}}</strong> — due {{this.dueDate}}<br />
           <em>{{this.description}}</em><br />
-
-          {{#if this.isCompleted}}
-            ✅ Completed on {{this.completedDate}}
-          {{else}}
-            <div class="assignment-actions">
-              <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/complete" method="POST">
-                <button class="submit-btn" type="submit">📬 Submit</button>
-              </form>
-              <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/edit" method="GET">
-                <button class="submit-btn" type="submit">✏️ Edit</button>
-              </form>
-              <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/delete" method="POST">
-                <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
-              </form>
-            </div>
-          {{/if}}
+          <div class="assignment-actions">
+            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/complete" method="POST">
+              <button class="submit-btn" type="submit">📬 Submit</button>
+            </form>
+            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/edit" method="GET">
+              <button class="submit-btn" type="submit">✏️ Edit</button>
+            </form>
+            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/delete" method="POST">
+              <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
+            </form>
+          </div>
         </li>
+        {{/unless}}
       {{/each}}
+    </ul>
+
+    <!-- Dropdown for completed assignments -->
+    <details style="margin-top: 1rem;">
+      <summary style="cursor: pointer; font-weight: bold;"> Show Completed Assignments</summary>
+      <ul>
+        {{#each course.assignments}}
+          {{#if this.isCompleted}}
+          <li>
+            <strong>{{this.title}}</strong> — completed on {{this.completedDate}}<br />
+            <em>{{this.description}}</em>
+          </li>
+          {{/if}}
+        {{/each}}
       </ul>
-    {{else}}
-      <p>No assignments yet.</p>
-    {{/if}}
-  </div>
+    </details>
+  {{else}}
+    <p>No assignments yet.</p>
+  {{/if}}
+</div>
 
   <div class="course-actions">
     <button id="toggleAssignmentForm" class="submit-btn">➕ Add Assignment</button>

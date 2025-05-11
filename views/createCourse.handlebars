@@ -9,10 +9,10 @@
     <input type="text" id="title" name="title" required />
 
     <label for="startDate">Start Date:</label>
-    <input type="date" id="startDate" name="startDate" required />
+  <input type="date" id="startDate" name="startDate" required min="{{todayDate}}" />
 
-    <label for="endDate">End Date:</label>
-    <input type="date" id="endDate" name="endDate" required />
+  <label for="endDate">End Date:</label>
+  <input type="date" id="endDate" name="endDate" required min="{{todayDate}}" />
 
     <button class="btn-primary" type="submit">Create Course</button>
   </form>

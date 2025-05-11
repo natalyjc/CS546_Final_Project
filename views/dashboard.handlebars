@@ -6,56 +6,108 @@
   <a href="/admin" class="admin-link">Go to Admin Dashboard</a>
   {{/if}}
 
-  <div class="dashboard-section">
-    <div class="section-header">
-      <h3>📚 My Courses</h3>
-      <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
-    </div>
-    {{#if courses.length}}
-    <ul class="course-list">
-      {{#each courses}}
-      <li class="course-card" data-course-id="{{this._id}}">
-        <div class="course-card-header">
-          <div class="course-name">{{this.title}}</div>
-          <div class="course-actions">
-            <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
-              <button type="submit" class="delete-course-btn">🗑 Delete</button>
-            </form>
-          </div>
-        </div>
-        <div class="course-details">
-          <span class="course-progress">📈 Progress: {{this.progress}}%</span>
-          <span class="course-status">📌 Status: {{this.status}}</span>
-        </div>
-        <div class="course-recommendations">
-          <h4>🎥 Recommended YouTube Videos:</h4>
-          <ul><li>Loading videos...</li></ul>
-        </div>
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p>No courses added yet.</p>
-    {{/if}}
-  </div>
+  <form action="/dashboard/preferences" method="POST" class="widget-settings-form">
+    <label>
+      <input type="checkbox" name="showCourses" {{#if dashboardPreferences.showCourses}}checked{{/if}}>
+      📚 Show Courses
+    </label>
+    <label>
+      <input type="checkbox" name="showGoals" {{#if dashboardPreferences.showGoals}}checked{{/if}}>
+      🎯 Show Goals
+    </label>
+    <label>
+      <input type="checkbox" name="showRecommendations" {{#if dashboardPreferences.showRecommendations}}checked{{/if}}>
+      🌐 Show Recommendations
+    </label>
+    <button type="submit">Save Preferences</button>
+  </form>
 
-  <div class="dashboard-section">
-    <h3>🎯 My Goals</h3>
-    {{#if goals.length}}
-    <ul class="goal-list">
-      {{#each goals}}
-      <li class="goal-card">
-        <div class="goal-text">📌 {{this.goalTitle}}</div>
-        {{#if this.isCompleted}}
-        <div class="goal-completed">✅ Completed</div>
-        {{else}}
-        <div class="goal-pending">🚀 In Progress</div>
-        {{/if}}
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p>No goals added yet.</p>
+  <div class="dashboard-grid">
+    {{#if dashboardPreferences.showCourses}}
+    <div class="resizable-box" style="width: {{layoutPrefs.courses.width}}; height: {{layoutPrefs.courses.height}}">
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h3>📚 My Courses</h3>
+        <a href="/dashboard/courses/new" class="btn-create-course">➕ Add New Course</a>
+      </div>
+      {{#if courses.length}}
+      <ul class="course-list">
+        {{#each courses}}
+        <li class="course-card" data-course-id="{{this._id}}">
+          <div class="course-card-header">
+            <div class="course-name">{{this.title}}</div>
+            <div class="course-actions">
+              <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
+                <button type="submit" class="delete-course-btn">🗑 Delete</button>
+              </form>
+            </div>
+          </div>
+          <div class="course-details">
+            <span class="course-progress">📈 Progress: {{this.progress}}%</span>
+            <span class="course-status">📌 Status: {{this.status}}</span>
+          </div>
+          {{#if ../dashboardPreferences.showRecommendations}}
+          <div class="course-recommendations">
+            <h4>🎥 Recommended YouTube Videos:</h4>
+            <ul><li>Loading videos...</li></ul>
+          </div>
+          {{/if}}
+        </li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <p>No courses added yet.</p>
+      {{/if}}
+    </div>
+    </div>
+    {{/if}}
+
+    {{#if dashboardPreferences.showGoals}}
+    <div class="resizable-box" style="width: {{layoutPrefs.goals.width}}; height: {{layoutPrefs.goals.height}}">
+    <div class="dashboard-section">
+      <div class="section-header">
+        <h3>🎯 My Goals</h3>
+        <a href="/dashboard/goals/new" class="btn-create-course">➕ Add New Goal</a>
+      </div>
+
+      {{#if goals.length}}
+      <ul class="goal-list">
+        {{#each goals}}
+          {{#if this.isCompleted}}
+            <li class="goal-card completed-goal" style="display: none;">
+              <div class="goal-text">📌 {{this.goalTitle}}</div>
+              <div class="goal-target-date">🎯 Target Date: {{this.targetDate}}</div>
+              <div class="goal-completed">✅ Completed</div>
+            </li>
+          {{else}}
+            <li class="goal-card">
+              <div class="goal-card-content">
+                <div class="goal-info">
+                  <div class="goal-title">📌 {{this.goalTitle}}</div>
+                  <div class="goal-date">🎯 Target Date: {{this.targetDate}}</div>
+                </div>
+
+                <div class="goal-status-actions">
+                  {{#if this.isCompleted}}
+                    <span class="goal-status completed">✅ Completed</span>
+                  {{else}}
+                    <span class="goal-status in-progress">🚀 In Progress</span>
+                    <form action="/dashboard/goals/complete/{{this._id}}" method="POST">
+                      <button type="submit" class="btn-primary mark-complete-btn">Mark as Completed</button>
+                    </form>
+                  {{/if}}
+                </div>
+              </div>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+      <button id="toggle-completed-btn" class="btn-create-course" style="margin-top: 1rem;">Show Completed Goals</button>
+      {{else}}
+      <p>No goals added yet.</p>
+      {{/if}}
+    </div>
+    </div>
     {{/if}}
   </div>
 
@@ -65,3 +117,5 @@
 </div>
 
 <script src="/js/recommendations.js"></script>
+<script src="/js/goalsToggle.js"></script>
+<script src="/js/dashboardresize.js"></script>

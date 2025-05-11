@@ -367,3 +367,134 @@ button, .btn-create-course, .logout-btn {
     align-items: flex-start;
   }
 }
+
+.widget-settings-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  background-color: #f3f4f6;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.widget-settings-form label {
+  font-size: 1rem;
+  color: #374151;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.widget-settings-form input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #3b82f6;
+  cursor: pointer;
+}
+
+.widget-settings-form button {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-left: auto;
+}
+
+.widget-settings-form button:hover {
+  background-color: #1e40af;
+}
+
+.resizable-box {
+  resize: both;
+  overflow: auto;
+  min-width: 300px;
+  min-height: 200px;
+  max-width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.dashboard-section {
+  width: 100%;
+  height: 100%;
+}
+
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.goal-card {
+  background-color: #ffffff;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.goal-card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.goal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.goal-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.goal-date {
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.goal-status-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.goal-status {
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.goal-status.completed {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.goal-status.in-progress {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+.mark-complete-btn {
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+}

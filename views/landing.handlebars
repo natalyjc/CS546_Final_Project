@@ -1,30 +1,29 @@
 <div class="auth-container">
-  <h2>Personalized Learning Dashboard</h2>
+  <h2 class="form-title">📘 Personalized Learning Dashboard</h2>
   
   {{#if firstName}}
-  <p>Welcome back, <strong>{{firstName}}</strong>!</p>
+    <p class="form-subtitle">Welcome back, <strong>{{firstName}}</strong>!</p>
     <div class="auth-btns">
       <a href="/dashboard">
-        <button type="button">Dashboard</button>
+        <button type="button" class="btn-primary">Go to Dashboard</button>
       </a>
       {{#if isAdmin}}
       <a href="/admin">
-        <button type="button" class="admin-dashboard-btn">Go to Admin Dashboard</button>
+        <button type="button" class="btn-primary admin-dashboard-btn">Admin Panel</button>
       </a>
       {{/if}}
     </div>
 
   {{else}}
-  <p>Track your learning journey with our personalized dashboard</p>
-  
-  
-  <div class="auth-btns login-section">
-    <a href="/auth/login">
-      <button type="button">Login</button>
-    </a>
-    <p class="sub-link sub-link-landing">
-      New user? <a href="/auth/register">Register here</a>
-    </p>
-  </div>
+    <p class="form-subtitle">Track your progress, manage goals, and get smart learning recommendations.</p>
+    
+    <div class="auth-btns login-section">
+      <a href="/auth/login">
+        <button type="button" class="btn-primary">Login</button>
+      </a>
+      <p class="sub-link sub-link-landing">
+        New here? <a href="/auth/register">Create an account</a>
+      </p>
+    </div>
   {{/if}}
 </div>

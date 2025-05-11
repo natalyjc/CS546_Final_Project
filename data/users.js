@@ -32,7 +32,7 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
     dashboardPreferences: {
       showGoals: true,
       showCourses: true,
-      showRecommendations: true
+      showRecommendations: true,
     }
   };
 

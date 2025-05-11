@@ -47,7 +47,15 @@
 
 - CSS styling via `public/css/styles.css`
 - Client-side scripts: `form_validation.js`, `recommendations.js`
-  
+
+#### Progress Tracking Dashboard
+
+- Use Chart.js to visualize:
+  - Needs to be modified to fit with total and completed course assignments and start-end dates of course
+  - Course completion progress.
+  - Weekly learning time (still in progress)
+  - Goal progress over time (still in progress)
+
 ### Basic Project Structure
 
 ```bash
@@ -70,6 +78,7 @@
 │   ├── css
 │   │   └── styles.css
 │   └── js
+│       ├── progress.js
 │       ├── form_validation.js
 │       └── recommendations.js
 ├── routes
@@ -108,13 +117,6 @@
   - Allow users to update and delete personal learning goals.
   - Build frontend forms and POST routes to allow users to add new goals via dashboard
   - Add targetDate to UI
-
-#### Progress Tracking Dashboard
-
-- Use Chart.js to visualize:
-  - Course completion progress.
-  - Weekly learning time.
-  - Goal progress over time.
   
 #### Gamification & Engagement (Extra Features)
 

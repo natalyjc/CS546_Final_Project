@@ -68,10 +68,28 @@ export const validateDateOrder = (start, end) => {
     return { startDate, endDate };
 };
 
+export const checkEmpty = (string, name) => {
+    string = xss(string.trim());
+    if(!string) throw `${name} cannot be empty`;
+    return string;
+};
+
+export const validDate = (date) => {
+    if(!date || typeof date !== 'string') throw 'Date is required and must be a string';
+    date = xss(date.trim());
+    if(date.length === 0) throw 'Date cannot be empty';
+    const dateObj = new Date(date);
+    if (isNaN(dateObj.getTime())) throw "Date is invalid";
+    return dateObj;
+};
+
 export default {
     validName,
     validEmail,
     validPassword,
     validCourseTitle,
-    validateDateOrder
+    validateDateOrder,
+    checkEmpty,
+    validDate
+
 }

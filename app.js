@@ -7,7 +7,7 @@ import dashboardRoutes from './routes/dashboard.js';
 import landingRoutes from './routes/landing.js';
 import coursesRoutes from './routes/courses.js';
 import recommendationRoutes from './routes/recommendations.js';
-
+import apiRoutes from './routes/api.js';
 
 const app = express();
 
@@ -28,6 +28,7 @@ app.set('view engine', 'handlebars');
 app.use('/', landingRoutes);
 app.use('/auth', authRoutes);
 app.use('/admin', adminRoutes);
+app.use('/api', apiRoutes);
 app.use('/dashboard', dashboardRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/recommendations', recommendationRoutes);

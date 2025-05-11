@@ -10,9 +10,9 @@ import {
 } from '../data/courses.js';
 import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
-import { validCourseTitle, validateDateOrder } from '../utils/validation.js';
+import { checkEmpty, validCourseTitle, validDate, validateDateOrder } from '../utils/validation.js';
 import { courses } from '../config/mongoCollections.js';
-import { ObjectId } from 'mongodb';
+import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
 
 // --- Course Creation ---
 router.get('/new', (req, res) => {
@@ -23,9 +23,9 @@ router.get('/new', (req, res) => {
 router.post('/', async (req, res) => {
   if (!req.session.user) return res.redirect('/login');
   const userId = req.session.user._id;
-  const { title, notes, startDate, endDate } = req.body;
-
+  let { title, notes, startDate, endDate } = req.body;
   try {
+    title = checkEmpty(title);
     const safeTitle = validCourseTitle(title);
     validateDateOrder(startDate, endDate);
     const newCourse = await createCourse(userId, safeTitle, notes, startDate, endDate);
@@ -48,7 +48,10 @@ router.get('/:id', async (req, res) => {
 // --- Assignments ---
 router.post('/:id/assignments', async (req, res) => {
   try {
-    const { title, description, dueDate } = req.body;
+    let { title, description, dueDate } = req.body;
+    title = checkEmpty(title, "Title");
+    description = checkEmpty(description, "Description");
+    dueDate = validDate(dueDate);
     const courseCollection = await courses();
     await courseCollection.updateOne(
       { _id: new ObjectId(req.params.id) },
@@ -58,7 +61,7 @@ router.post('/:id/assignments', async (req, res) => {
             assignmentId: new ObjectId().toString(),
             title: title.trim(),
             description: description.trim(),
-            dueDate: new Date(dueDate),
+            dueDate: dueDate,
             isCompleted: false
           }
         }
@@ -79,7 +82,10 @@ router.get('/:courseId/assignments/:assignmentId/edit', async (req, res) => {
 
 router.post('/:courseId/assignments/:assignmentId/edit', async (req, res) => {
   try {
-    const { title, description, dueDate } = req.body;
+    let { title, description, dueDate } = req.body;
+    title = checkEmpty(title, "Title");
+    description = checkEmpty(description, "Description");
+    dueDate = validDate(dueDate);
     const result = await courses().then(c =>
       c.updateOne(
         { _id: new ObjectId(req.params.courseId), 'assignments.assignmentId': req.params.assignmentId },
@@ -130,7 +136,9 @@ router.post('/:courseId/assignments/:assignmentId/delete', async (req, res) => {
 // --- Resources ---
 router.post('/:id/resources', async (req, res) => {
   try {
-    const { title, link } = req.body;
+    let { title, link } = req.body;
+    title = checkEmpty(title);
+    link = checkEmpty(link);
     await courses().then(c =>
       c.updateOne(
         { _id: new ObjectId(req.params.id) },
@@ -164,7 +172,9 @@ router.get('/:courseId/resources/:resourceId/edit', async (req, res) => {
 
 router.post('/:courseId/resources/:resourceId/edit', async (req, res) => {
   try {
-    const { title, link } = req.body;
+    let { title, link } = req.body;
+    title = checkEmpty(title);
+    link = checkEmpty(link);
     const result = await courses().then(c =>
       c.updateOne(
         { _id: new ObjectId(req.params.courseId), 'resources.resourceId': req.params.resourceId },

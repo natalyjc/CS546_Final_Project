@@ -1,7 +1,7 @@
 <div class="dashboard-container">
   <h2>Welcome, {{firstName}}!</h2>
-  <p class="dashboard-intro">This is your personalized learning dashboard. Stay on top of your goals and progress!</p>
-
+  <p>This is your personalized learning dashboard. Stay on top of your goals and progress!</p>
+  
   {{#if isAdmin}}
   <a href="/admin" class="admin-link">Go to Admin Dashboard</a>
   {{/if}}
@@ -11,37 +11,9 @@
       <h3>📚 My Courses</h3>
       <a href="/courses/new" class="btn-create-course">➕ Add New Course</a>
     </div>
-    {{#if courses.length}}
-    <ul class="course-list">
-      {{#each courses}}
-      <li class="course-card">
-        <div class="course-card-header">
-          <div class="course-name">
-            <a href="/courses/{{this._id}}" class="course-link">{{this.title}}</a>
-          </div>
-          <div class="course-actions">
-            <a href="/courses/{{this._id}}/edit" class="update-course-btn">✏️ Edit</a>
-            <form action="/courses/delete/{{this._id}}" method="POST">
-              <button type="submit" class="delete-course-btn">🗑 Delete</button>
-            </form>
-          </div>
-        </div>
-        <div class="course-details">
-          <span class="course-progress">📈 Progress: {{this.progress}}%</span>
-          <span class="course-status">📌 Status: {{this.status}}</span>
-        </div>
-        <div class="course-recommendations">
-          <h4>🎥 Recommended YouTube Videos:</h4>
-          <ul id="yt-{{@index}}">
-            <li>Loading videos...</li>
-          </ul>
-        </div>
-      </li>
-      {{/each}}
-    </ul>
-    {{else}}
-    <p>No courses added yet.</p>
-    {{/if}}
+    <div id="courseContainer">
+      <p>Loading courses...</p>
+    </div>
   </div>
 
   <div class="dashboard-section">
@@ -69,4 +41,5 @@
   </form>
 </div>
 
-<script src="/js/recommendations.js"></script>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="/js/dashboard.js"></script>

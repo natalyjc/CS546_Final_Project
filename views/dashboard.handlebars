@@ -24,8 +24,36 @@
           </div>
         </div>
         <div class="course-details">
-          <span class="course-progress">📈 Progress: {{this.progress}}%</span>
-          <span class="course-status">📌 Status: {{this.status}}</span>
+        <span class="course-status">📌 Status: {{this.status}}</span>
+        <button class="toggle-progress-btn">📈 View Progress</button>
+
+        <div class="progress-container" style="display: none;">
+          <canvas class="progress-chart" width="200" height="200"></canvas>
+
+          <div class="progress-mode-selector">
+            <label>Choose Progress Mode:</label>
+            <select class="progress-mode">
+              <option value="" selected disabled>Select</option>
+              <option value="assignments">Assignments Completed</option>
+              <option value="dates">Start-End Date</option>
+            </select>
+          </div>
+
+          <!-- modify once assignments sub doc is created -->
+          <div class="assignments-inputs" style="display: none;">
+            <input type="number" class="completed" placeholder="Completed Assignments" min="0" />
+            <input type="number" class="total" placeholder="Total Assignments" min="1" />
+          </div>
+
+          <!-- can be replaced with course start and end date from user input,
+          hard coded for now to visualize results -->
+          <div class="dates-inputs" style="display: none;">
+            <input type="date" class="start-date" />
+            <input type="date" class="end-date" />
+          </div>
+
+        </div>
+
         </div>
         <div class="course-recommendations">
           <h4>🎥 Recommended YouTube Videos:</h4>

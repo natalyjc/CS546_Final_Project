@@ -17,7 +17,6 @@ import { loggedOutRedirect } from '../middleware/auth.js';
 
 // --- Course Creation ---
 router.get('/new', loggedOutRedirect, (req, res) => {
-  if (!req.session.user) return res.redirect('/login');
   res.render('createCourse', { title: 'Create New Course' });
 });
 

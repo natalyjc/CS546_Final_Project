@@ -37,7 +37,7 @@
           {{#each courses}}
           <li class="course-card" data-course-id="{{this._id}}">
             <div class="course-card-header">
-              <div class="course-name">{{this.title}}</div>
+              <a class="course-name" href="/courses/{{this._id}}">{{this.title}}</a>
               <div class="course-actions">
                 <form action="/dashboard/courses/delete/{{this._id}}" method="POST">
                   <button type="submit" class="delete-course-btn">🗑 Delete</button>

@@ -48,7 +48,7 @@
 - CSS styling via `public/css/styles.css`
 - Client-side scripts: `form_validation.js`, `recommendations.js`
 
-#### Progress Tracking Dashboard
+### Progress Tracking Dashboard
 
 - Use Chart.js to visualize:
   - Needs to be modified to fit with total and completed course assignments and start-end dates of course

@@ -5,6 +5,8 @@ import { createCourse } from '../data/courses.js';
 import { createGoal } from '../data/goals.js';
 import { connectDb } from '../config/mongoConnection.js';
 import { awardBadges } from '../utils/gamification.js';
+import { getGoalsByUserId } from '../data/goals.js';
+import { markGoalCompleted } from '../data/goals.js';
 
 const seed = async () => {
   const db = await connectDb();
@@ -86,12 +88,13 @@ const seed = async () => {
     );
 
     console.log('Seeding goals...');
-    await createGoal(user._id.toString(), 'Finish Web Dev Course', '05/15/2025');
-    await createGoal(user._id.toString(), 'Watch 3 ML videos', '06/15/2024');
-    await createGoal(user._id.toString(), 'Goal 3', '05/15/2025');
-    await createGoal(user._id.toString(), 'Goal 4', '06/15/2024');
-    await createGoal(user._id.toString(), 'Goal 5', '05/15/2025');
-    await createGoal(user._id.toString(), 'Goal 5', '06/15/2024');
+    await createGoal(user._id.toString(), 'Finish Web Dev Course', '06/15/2025');
+    await createGoal(user._id.toString(), 'Watch 3 ML videos', '07/15/2025');
+    await createGoal(user._id.toString(), 'Goal 3', '08/01/2025');
+    await createGoal(user._id.toString(), 'Goal 4', '08/15/2025');
+    await createGoal(user._id.toString(), 'Goal 5', '09/01/2025');
+    await createGoal(user._id.toString(), 'Goal 6', '09/15/2025');
+
 
     console.log('Marking 5 goals completed for badge test...');
     const goals = await getGoalsByUserId(user._id.toString());
@@ -100,7 +103,6 @@ const seed = async () => {
     }
 
     console.log('Awarding badges...');
-    await complete
     await awardBadges(user._id.toString());
 
     console.log('Seed completed successfully!');

@@ -70,18 +70,39 @@ export const validateDateOrder = (start, end) => {
 
 export const checkEmpty = (string, name) => {
     string = xss(string.trim());
-    if(!string) throw `${name} cannot be empty`;
+    if (!string) throw `${name} cannot be empty`;
     return string;
 };
 
 export const validDate = (date) => {
-    if(!date || typeof date !== 'string') throw 'Date is required and must be a string';
+    if (!date || typeof date !== 'string') throw 'Date is required and must be a string';
     date = xss(date.trim());
-    if(date.length === 0) throw 'Date cannot be empty';
+    if (date.length === 0) throw 'Date cannot be empty';
     const dateObj = new Date(date);
     if (isNaN(dateObj.getTime())) throw "Date is invalid";
     return dateObj;
 };
+
+export function formatDateForInput(dateStr) {
+    if (!dateStr) return '';
+    const date = new Date(dateStr);
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 10); // YYYY-MM-DD
+}
+
+export function formatForDatetimeLocal(dateStr) {
+    const date = new Date(dateStr);
+    const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return local.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
+  }
+  
+
+const parseLocalDate = (str) => {
+    const [year, month, day] = str.split('-');
+    return new Date(Number(year), Number(month) - 1, Number(day));
+  };
+  
+
 
 export default {
     validName,
@@ -90,5 +111,7 @@ export default {
     validCourseTitle,
     validateDateOrder,
     checkEmpty,
-    validDate
+    validDate,
+    formatDateForInput,
+    formatForDatetimeLocal
 }

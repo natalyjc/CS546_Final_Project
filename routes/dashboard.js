@@ -6,6 +6,7 @@ import { getUserById } from '../data/users.js';
 import { getGoalsByUserId, getGoalById, createGoal, markGoalCompleted, updateGoal, deleteGoal } from '../data/goals.js';
 import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
+import { checkEmpty, validDate } from '../utils/validation.js';
 
 const today = new Date().toISOString().split('T')[0];
 import { loggedOutRedirect } from '../middleware/auth.js';
@@ -112,6 +113,9 @@ router.post('/courses/delete/:id', async (req, res) => {
 });
 
 router.get('/goals/new', loggedOutRedirect, (req, res) => {
+  const todayDate = new Date();
+  const localToday = new Date(todayDate.getTime() - todayDate.getTimezoneOffset() * 60000);
+  const formattedToday = localToday.toISOString().slice(0, 10); // "YYYY-MM-DD"
 
   res.render('createGoal', { 
     title: 'Create New Goal',
@@ -121,9 +125,12 @@ router.get('/goals/new', loggedOutRedirect, (req, res) => {
 
 router.post('/goals', async (req, res) => {
   const userId = req.session.user._id;
-  const { goalTitle, targetDate } = req.body;
+
 
   try {
+    const goalTitle = checkEmpty(req.body.goalTitle);
+    const targetDate = validDate(req.body.targetDate);
+
     await createGoal(userId, goalTitle, targetDate);
     res.redirect('/dashboard');
   } catch (e) {

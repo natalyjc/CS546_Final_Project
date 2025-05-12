@@ -10,7 +10,7 @@ import {
 } from '../data/courses.js';
 import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
-import { checkEmpty, validCourseTitle, validDate, validateDateOrder } from '../utils/validation.js';
+import { checkEmpty, validCourseTitle, validDate, validateDateOrder, formatDateForInput, formatForDatetimeLocal } from '../utils/validation.js';
 import { courses } from '../config/mongoCollections.js';
 import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
 import { loggedOutRedirect } from '../middleware/auth.js';
@@ -79,7 +79,8 @@ router.get('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async
 
   if (!assignment) return res.status(404).render('error', { error: 'Assignment not found' });
 
-  const formattedDueDate = new Date(assignment.dueDate).toISOString().slice(0, 16); 
+  const formattedDueDate = formatForDatetimeLocal(assignment.dueDate);
+
 
   res.render('editAssignment', { courseId: req.params.courseId, assignment, formattedDueDate });
 });
@@ -242,6 +243,8 @@ router.post('/delete/:id', loggedOutRedirect, async (req, res) => {
 router.get('/:id/edit', loggedOutRedirect, async (req, res) => {
   try {
     const course = await getCourseById(req.params.id);
+    course.startDate = formatDateForInput(course.startDate);
+    course.endDate = formatDateForInput(course.endDate);
     res.render('editCourse', { course });
   } catch (e) {
     res.status(404).render('error', { error: 'Course not found' });

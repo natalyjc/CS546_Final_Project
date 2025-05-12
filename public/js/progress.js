@@ -1,3 +1,9 @@
+const parseLocalDate = (str) => {
+  const [year, month, day] = str.split('-');
+  return new Date(Number(year), Number(month) - 1, Number(day));
+};
+
+
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".course-card").forEach((card) => {
     const toggleBtn = card.querySelector(".toggle-progress-btn");
@@ -85,8 +91,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const startStr = card.getAttribute("data-start-date");
         const endStr = card.getAttribute("data-end-date");
         if (startStr && endStr) {
-          const start = new Date(startStr);
-          const end = new Date(endStr);
+          const start = parseLocalDate(startStr);
+          const end = parseLocalDate(endStr);
           const now = new Date();
 
           const dateOptions = { month: 'short', day: 'numeric', year: 'numeric' };

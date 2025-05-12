@@ -8,6 +8,8 @@ import landingRoutes from './routes/landing.js';
 import coursesRoutes from './routes/courses.js';
 import recommendationRoutes from './routes/recommendations.js';
 import apiRoutes from './routes/api.js';
+import { handlebarsHelpers } from './utils/handlebarsHelper.js';
+
 
 const app = express();
 
@@ -21,8 +23,17 @@ app.use(session({
   saveUninitialized: false
 }));
 
-app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
+const hbs = exphbs.create({
+  helpers: handlebarsHelpers,
+  defaultLayout: 'main', // if you're using layouts
+  extname: '.handlebars'
+});
+
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
+
+
+
 
 // Route registration
 app.use('/', landingRoutes);

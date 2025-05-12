@@ -6,6 +6,8 @@ import { getUserById } from '../data/users.js';
 import { getGoalsByUserId, getGoalById, createGoal, markGoalCompleted, updateGoal, deleteGoal } from '../data/goals.js';
 import { users } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
+import { awardBadges } from '../utils/gamification.js';
+import { badgeMap } from '../utils/badgeMap.js';
 
 const today = new Date().toISOString().split('T')[0];
 import { loggedOutRedirect } from '../middleware/auth.js';
@@ -43,6 +45,12 @@ router.get('/', loggedOutRedirect, async (req, res) => {
     
     const goals = prefs.showGoals ? await getGoalsByUserId(userId) : [];
 
+    const allBadges = badgeMap.map(b => ({
+      ...b,
+      earned: (user.points || 0) >= b.minPoints
+    }));
+    const visibleBadges = allBadges.filter(b => b.earned);
+
     res.render('dashboard', {
       title: 'Dashboard',
       firstName: user.firstName,
@@ -50,7 +58,11 @@ router.get('/', loggedOutRedirect, async (req, res) => {
       dashboardPreferences: prefs,
       layoutPrefs: prefs.layout,
       courses,
-      goals
+      goals,
+      user: {
+        badges : visibleBadges,
+        points : user.points || 0
+      }
     });
   } catch (error) {
     res.status(500).render('error', { error: error.toString() });
@@ -162,7 +174,12 @@ router.post('/goals/:goalId/delete', async (req, res) => {
 
 router.post('/goals/complete/:id', async (req, res) => {
   try {
-    await markGoalCompleted(req.params.id);
+    const goalId = req.params.id;
+    const userId = req.session.user._id;
+
+    await markGoalCompleted(goalId);
+    await awardBadges(userId); // 👈 Add this line
+
     res.redirect('/dashboard');
   } catch (e) {
     res.status(400).render('error', { error: e.toString() });

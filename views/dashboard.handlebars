@@ -153,6 +153,21 @@
     </div>
     {{/if}}
 
+    <div class="dashboard-section gamification">
+      <h3>🏅 Badges & Points</h3>
+      <p>You’ve earned <strong>{{user.points}}</strong> points!</p>
+
+      <ul class="badge-list">
+        {{#each user.badges}}
+          {{#if this.earned}}
+            <li class="badge">
+              <img src="{{this.image}}" alt="{{this.label}}" title="{{this.label}}" />
+              <p>{{this.label}}</p>
+            </li>
+          {{/if}}
+        {{/each}}
+      </ul>
+    </div>
   </div>
 
   <form action="/auth/logout" method="GET">

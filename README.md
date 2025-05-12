@@ -1,4 +1,4 @@
-# CS546_Final_Project
+# CS546 Final Project
 
 ## ✅ Features Implemented
 
@@ -55,18 +55,22 @@
   - Course completion progress.
   - Weekly learning time (still in progress)
   - Goal progress over time (still in progress)
-  - 
+
 ### Courses & Goals Features
 
 - Goals Collection:
   - Allow users to update and delete personal learning goals.
   - Build frontend forms and POST routes to allow users to add new goals via dashboard
   - Add targetDate to UI
-  - 
 
 ### Courses & Goals Features
 - Courses Collection
   - Build frontend forms and POST routes to allow users to add new courses via dashboard
+
+### Extra Feature
+
+- Points, badges, or streaks for completing goals.
+- Customizable Dashboard
 
 ### Basic Project Structure
 
@@ -75,45 +79,67 @@
 ├── README.md
 ├── app.js
 ├── config
-│   ├── mongoCollections.js
-│   ├── mongoConnection.js
-│   └── settings.js
+│   ├── mongoCollections.js
+│   ├── mongoConnection.js
+│   └── settings.js
 ├── data
-│   ├── courses.js
-│   ├── goals.js
-│   └── users.js
+│   ├── courses.js
+│   ├── goals.js
+│   └── users.js
 ├── middleware
-│   └── admin.js
-│   └── auth.js
+│   ├── admin.js
+│   └── auth.js
 ├── package-lock.json
 ├── package.json
 ├── public
-│   ├── css
-│   │   └── styles.css
-│   └── js
-│       ├── progress.js
-│       ├── form_validation.js
-│       └── recommendations.js
+│   ├── css
+│   │   └── styles.css
+│   ├── favicon.png
+│   ├── images
+│   │   └── badges
+│   │       ├── first-goal.png
+│   │       ├── goal-10.png
+│   │       ├── goal-20.png
+│   │       ├── goal-5.png
+│   │       ├── goal-over100.png
+│   │       └── goal-over50.png
+│   └── js
+│       ├── dashboard.js
+│       ├── dashboardresize.js
+│       ├── form_validation.js
+│       ├── goalsToggle.js
+│       ├── progress.js
+│       ├── recommendations.js
+│       └── validateCourse.js
 ├── routes
-│   ├── admin.js
-|   ├── courses.js
-│   ├── auth.js
-│   ├── dashboard.js
-│   └── recommendations.js
+│   ├── admin.js
+│   ├── api.js
+│   ├── auth.js
+│   ├── courses.js
+│   ├── dashboard.js
+│   ├── landing.js
+│   └── recommendations.js
 ├── tasks
-│   └── seed.js
+│   └── seed.js
 ├── utils
-│   ├── validation.js
-│   └── youtubeApi.js
+│   ├── badgeMap.js
+│   ├── gamification.js
+│   ├── validation.js
+│   └── youtubeApi.js
 └── views
     ├── adminDashboard.handlebars
+    ├── courseView.handlebars
     ├── createCourse.handlebars
-    ├── createCourse.handlebars
+    ├── createGoal.handlebars
     ├── dashboard.handlebars
+    ├── editAssignment.handlebars
+    ├── editCourse.handlebars
+    ├── editGoal.handlebars
+    ├── editResource.handlebars
     ├── error.handlebars
-    ├── layouts
-    │   └── main.handlebars
     ├── landing.handlebars
+    ├── layouts
+    │   └── main.handlebars
     ├── login.handlebars
     └── register.handlebars
 ```
@@ -124,7 +150,6 @@
   
 #### Gamification & Engagement (Extra Features)
 
-- Points, badges, or streaks for completing goals.
 - Daily/weekly email reminders (could use `node-cron` for local or Zoho/Mailgun API).
 - “Motivational quote” or daily tip on the dashboard.
 
@@ -141,6 +166,20 @@
 - HTTPS if deploying live (e.g., via Heroku or Vercel).
 
 ## Running the App
+
+### YouTube API Setup:
+
+1. Go to the Google Cloud Console
+
+2. Create a project and enable the YouTube Data API v3
+
+3. Generate an API key
+
+4. Create a .env file in the project root:
+
+```bash
+YOUTUBE_API_KEY=your_api_key_here
+```
 
 ```bash
 npm install

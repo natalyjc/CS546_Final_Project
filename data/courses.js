@@ -74,7 +74,8 @@ export const updateCourse = async (id, userId, title, startDate, endDate) => {
     { $set: { title, startDate, endDate } }
   );
 
-  if (result.modifiedCount === 0) throw 'Course update failed or no changes detected';
+  if (result.matchedCount === 0) throw 'Goal not found or not authorized to edit.';
+
 };
 
 

@@ -66,7 +66,7 @@ export const updateGoal = async (goalId, goalTitle, targetDate) => {
     { $set: { goalTitle, targetDate } }
   );
 
-  if (result.modifiedCount === 0) throw 'Goal update failed';
+  if (result.matchedCount === 0) throw 'Goal not found or not authorized to edit.';
   return true;
 };
 

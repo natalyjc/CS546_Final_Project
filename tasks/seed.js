@@ -1,32 +1,114 @@
-// seed.js
-import { create } from 'express-handlebars';
+// tasks/seed.js
+import { ObjectId } from 'mongodb';
 import { createUser } from '../data/users.js';
+import { createCourse } from '../data/courses.js';
+import { createGoal } from '../data/goals.js';
+import { connectDb } from '../config/mongoConnection.js';
+import { awardBadges } from '../utils/gamification.js';
 
 const seed = async () => {
-  try {
-    const users = [
-      { firstName: 'Admin', lastName: 'User', email: 'admin@example.com', password: 'adminpass', isAdmin: true },
-      { firstName: 'TestUser', lastName: 'TestUser', email: 'testuser@example.com', password: 'testuser', isAdmin: false },
-    ];
+  const db = await connectDb();
+  await db.dropDatabase(); 
 
-    for (const user of users) {
-      const created = await createUser(
-        user.firstName,
-        user.lastName,
-        user.email,
-        user.password,
-        user.isAdmin
-      );
-      console.log(`Seeded user: ${created.email} (${user.isAdmin ? 'admin' : 'user'})`);
+  try {
+    console.log('Seeding users...');
+    const admin = await createUser('Admin', 'User', 'admin@example.com', 'adminpass', true);
+    const user = await createUser('Test', 'User', 'testuser@example.com', 'testuser', false);
+
+    console.log('Seeding courses...');
+    const course1 = await createCourse(
+      user._id.toString(),
+      'Web Programming',
+      'Learn full-stack JS',
+      '2024-01-01',
+      '2024-05-01'
+    );
+    const course2 = await createCourse(
+      user._id.toString(),
+      'Machine Learning',
+      'Intro to ML',
+      '2024-02-01',
+      '2024-06-01'
+    );
+
+    const coursesCollection = (await import('../config/mongoCollections.js')).courses;
+    const c = await coursesCollection();
+    
+    // Add assignments and resources with assignmentId
+    await c.updateOne(
+      { _id: course1._id },
+      {
+        $set: {
+          assignments: [
+            {
+              assignmentId: new ObjectId().toString(),
+              title: 'HW1',
+              dueDate: new Date('2025-04-15T11:59Z'),
+              isCompleted: true
+            },
+            {
+              assignmentId: new ObjectId().toString(),
+              title: 'HW2',
+              dueDate: new Date('2025-05-13T11:59Z'),
+              isCompleted: false
+            }
+          ],
+          resources: [
+            { 
+              resourceId: new ObjectId().toString(),
+              title: 'Intro Slides', 
+              link: 'https://example.com/slides1' }
+          ]
+        }
+      }
+    );
+
+    await c.updateOne(
+      { _id: course2._id },
+      {
+        $set: {
+          assignments: [
+            {
+              assignmentId: new ObjectId().toString(),
+              title: 'Project Proposal',
+              dueDate: new Date('2025-05-15T11:59Z'),
+              isCompleted: false
+            }
+          ],
+          resources: [
+            { 
+              resourceId: new ObjectId().toString(),
+              title: 'ML Video', 
+              link: 'https://example.com/ml' }
+          ]
+        }
+      }
+    );
+
+    console.log('Seeding goals...');
+    await createGoal(user._id.toString(), 'Finish Web Dev Course', '05/15/2025');
+    await createGoal(user._id.toString(), 'Watch 3 ML videos', '06/15/2024');
+    await createGoal(user._id.toString(), 'Goal 3', '05/15/2025');
+    await createGoal(user._id.toString(), 'Goal 4', '06/15/2024');
+    await createGoal(user._id.toString(), 'Goal 5', '05/15/2025');
+    await createGoal(user._id.toString(), 'Goal 5', '06/15/2024');
+
+    console.log('Marking 5 goals completed for badge test...');
+    const goals = await getGoalsByUserId(user._id.toString());
+    for (let i = 0; i < 5 && i < goals.length; i++) {
+      await markGoalCompleted(goals[i]._id.toString());
     }
 
-    console.log('✅ All seed users created!');
+    console.log('Awarding badges...');
+    await complete
+    await awardBadges(user._id.toString());
+
+    console.log('Seed completed successfully!');
     process.exit(0);
-  } catch (err) {
-    console.error('❌ Error seeding users:', err);
+  } catch (e) {
+    console.error('Error during seeding:', e);
     process.exit(1);
   }
 };
 
 seed();
-

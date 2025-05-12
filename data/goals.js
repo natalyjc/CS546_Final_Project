@@ -16,22 +16,20 @@ export const createGoal = async (userId, goalTitle, targetDate) => {
   if (!userId || !goalTitle || !targetDate) throw 'All fields are required';
 
   const [month, day, year] = targetDate.split('/');
-  const target = new Date(`${year}-${month}-${day}`);
+  const target = new Date(Date.UTC(year, month - 1, day)); // UTC midnight
   const today = new Date();
-
-  target.setHours(0, 0, 0, 0);
-  today.setHours(0, 0, 0, 0);
+  today.setUTCHours(0, 0, 0, 0);
 
   if (target <= today) {
     throw 'Target date must be after today';
-  }  
+  }
 
   const goalsCollection = await goals();
 
   const newGoal = {
     userId: userId.toString(),
     goalTitle,
-    targetDate,
+    targetDate: target, // stored as date-only
     isCompleted: false
   };
 
@@ -59,14 +57,17 @@ export const markGoalCompleted = async (goalId) => {
 export const updateGoal = async (goalId, goalTitle, targetDate) => {
   if (!goalId || !goalTitle || !targetDate) throw 'All fields required';
 
+  const [month, day, year] = targetDate.split('/');
+  const target = new Date(Date.UTC(year, month - 1, day)); // UTC midnight
+
   const goalsCollection = await goals();
 
   const result = await goalsCollection.updateOne(
     { _id: new ObjectId(goalId) },
-    { $set: { goalTitle, targetDate } }
+    { $set: { goalTitle, targetDate: target } }
   );
 
-  if (result.matchedCount === 0) throw 'Course not found or not authorized to edit.';
+  if (result.matchedCount === 0) throw 'Goal not found or not authorized to edit.';
   return true;
 };
 

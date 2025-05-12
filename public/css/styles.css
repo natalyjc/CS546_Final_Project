@@ -936,3 +936,24 @@ button.btn-primary {
   color: #4caf50;
   margin-left: 0.1rem;
 }
+
+.save-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+}
+
+.btn-reset-layout {
+  background-color: #f1f5f9;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.btn-reset-layout:hover {
+  background-color: #cbd5e1;
+}

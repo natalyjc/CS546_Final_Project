@@ -38,6 +38,9 @@
   - Users can create and mark completed personal learning goals.  
   - UI components include checkboxes to track progress.
 
+- Courses Collection
+  - Build frontend forms and POST routes to allow users to add new courses via dashboard
+
 ### Recommendations & APIs
 
 - YouTube API integration via `youtubeApi.js` in utils.
@@ -55,18 +58,17 @@
   - Course completion progress.
   - Weekly learning time (still in progress)
   - Goal progress over time (still in progress)
-  - 
+
 ### Courses & Goals Features
 
 - Goals Collection:
   - Allow users to update and delete personal learning goals.
   - Build frontend forms and POST routes to allow users to add new goals via dashboard
   - Add targetDate to UI
-  - 
 
-### Courses & Goals Features
-- Courses Collection
-  - Build frontend forms and POST routes to allow users to add new courses via dashboard
+#### Extra Features
+
+- Points and  badges for completing goals
 
 ### Basic Project Structure
 
@@ -122,19 +124,18 @@
 
 ## 🛠️ To-Do / In Progress
   
-#### Gamification & Engagement (Extra Features)
+### Gamification & Engagement (Extra Features)
 
-- Points, badges, or streaks for completing goals.
 - Daily/weekly email reminders (could use `node-cron` for local or Zoho/Mailgun API).
 - “Motivational quote” or daily tip on the dashboard.
 
-#### Error Handling + Validation
+### Error Handling + Validation
 
 - Input validation for user registration and login.
 - Try-catch wrappers across all route logic.
 - User-friendly error messages in the UI.
   
-#### Security Improvements
+### Security Improvements
 
 - Protect sensitive routes with middleware.
 - Sanitize inputs to prevent injection.

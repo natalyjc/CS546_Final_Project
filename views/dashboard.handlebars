@@ -19,9 +19,16 @@
       <input type="checkbox" name="showRecommendations" {{#if dashboardPreferences.showRecommendations}}checked{{/if}}>
       🌐 Show Recommendations
     </label>
-    <button type="submit">Save Preferences</button>
+    <div style="margin-left: auto; display: flex; gap: 0.5rem;">
+      <button type="submit" class="save-btn">💾 Save Preferences</button>
   </form>
 
+    <form action="/dashboard/reset-layout" method="POST" class="reset-layout-form">
+      <button type="submit" class="btn-reset-layout">🔄 Reset Layout</button>
+    </form>
+  </div>
+
+  
   <div class="dashboard-grid">
 
     {{#if dashboardPreferences.showCourses}}

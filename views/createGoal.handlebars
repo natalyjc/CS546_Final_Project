@@ -1,6 +1,6 @@
 <div class="form-container">
   <h2 class="form-title">Create New Goal</h2>
-  <form action="/dashboard/goals" method="POST">
+  <form id="goal-form" action="/dashboard/goals" method="POST">
     {{#if error}}
       <div class="error-message">{{error}}</div>
     {{/if}}
@@ -14,3 +14,5 @@
     <button class="btn-primary" type="submit">Create Goal</button>
   </form>
 </div>
+
+<script src="/js/goal_validation.js"></script>

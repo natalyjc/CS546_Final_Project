@@ -234,6 +234,19 @@ router.post('/save-layout', async (req, res) => {
   }
 });
 
+router.post('/reset-layout', async (req, res) => {
+  const userId = req.session.user._id;
+  const usersCollection = await users();
+  await usersCollection.updateOne(
+    { _id: new ObjectId(userId) },
+    {
+      $unset: {
+        'dashboardPreferences.layout': ''
+      }
+    }
+  );
+  res.redirect('/dashboard');
+});
 
 
 export default router;

@@ -30,7 +30,7 @@ export const validEmail = (email) => {
         throw 'Invalid email format';
     }
     // sanitize the email to prevent XSS attacks
-    email = xss(email);
+    email = xss(email).toLowerCase();
 
     return email;
 }

@@ -9,7 +9,7 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
   try{
     firstName = validName(firstName).trim();
     lastName = validName(lastName).trim();
-    email = validEmail(email).trim();
+    email = validEmail(email).trim().toLowerCase();
     password = validPassword(password).trim();
   }catch(e){
     throw e;
@@ -46,6 +46,7 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
 export const checkUser = async (email, password) => {
   if (!email || !password) throw 'Email and password required';
 
+  email = validEmail(email).trim().toLowerCase();
   const usersCollection = await users();
 
   const user = await usersCollection.findOne({ email });

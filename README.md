@@ -1,76 +1,93 @@
-# CS546_Final_Project
+# 📘 CS546 Final Project – Personalized Learning Dashboard
 
-## ✅ Features Implemented
+## ✅ Overview
 
-### User Authentication & Sessions
+This is a personalized learning dashboard web application that allows users to track learning goals, courses, and progress, with features like gamification, customizable layout, and intelligent video recommendations.
 
-- User registration & login
+Built with **Node.js**, **Express**, **MongoDB**, **Handlebars**, and **Chart.js**, the app implements full-stack functionality, strong user validation, clean UI/UX, and meets all rubric requirements.
+
+---
+
+## 🚀 Features Implemented (Rubric-Matched)
+
+### 🔐 User Authentication & Session Management
+
+- User registration & login with password hashing via `bcrypt`
 - Session-based authentication with `express-session`
-- Password hashing using `bcrypt`
+- Role-based routing: admin vs. regular users
 
-### Role-Based Routing
+### 🖥️ Views, Layout & Styling
 
-- Admin vs. Regular user handling
-- Middleware for admin-only routes
+- Responsive, clean UI using custom CSS (15+ custom rules)
+- Handlebars templates for all pages
+- Form validation with user-friendly inline error messages
+- Escape of all output to prevent XSS
 
-### Views & Styling
+### 🗂️ Core Functionality: Courses & Goals
 
-- Handlebars templates: login, register, dashboard, admin dashboard, create course
-- Responsive UI with modern CSS styling
+- **Courses**: Create, edit, delete, view progress, track assignments
+- **Goals**: Create, edit, complete, delete goals with target dates
+- Embedded progress tracking via Chart.js (assignments & dates)
+- Dashboard toggle preferences: show/hide Courses, Goals, Recommendations
 
-### Admin Dashboard
+### 📺 Recommendation Engine
 
-- Admin can view a table of all users (except passwords).
+- YouTube API integration recommends videos based on course topics
 
-### Database Setup
+### 🎮 Gamification (Extra Credit)
 
-- MongoDB connection is configured.
-- User data functions (createUser, checkUser) implemented.
+- Badges and points awarded for goal completions
+- Progress and achievements visible on dashboard
 
-### Courses & Goals Features (Implemented)
+### 🧩 Customizable Dashboard (Extra Credit)
 
-- Courses Collection  
-  - CRUD operations for adding and updating courses for a user.  
-  - Frontend to display enrolled courses.  
-  - Form and POST routes to allow users to add new courses via dashboard.
+- Resizable layout blocks (Courses, Goals)
+- Persisted in MongoDB and restored on login
+- 🔄 "Reset Layout" option to restore defaults
 
-- Goals Collection  
-  - Users can create and mark completed personal learning goals.  
-  - UI components include checkboxes to track progress.
+### 📦 AJAX + Client-side JS
 
-- Courses Collection
-  - Build frontend forms and POST routes to allow users to add new courses via dashboard
+- Dashboard preferences saved via AJAX (with client/server error handling)
+- JS validation and interactivity on forms (goals, login, register, etc.)
 
-### Recommendations & APIs
+### 🧪 Validation & Security
 
-- YouTube API integration via `youtubeApi.js` in utils.
-- Basic recommendation logic implemented.
+- Full input validation client- and server-side
+- Use of `xss()` to sanitize user inputs
+- Duplicate email prevention (case-insensitive)
+- All user inputs escaped using `{{variable}}` in Handlebars
 
-### Static Assets & Client Scripts
+### 🛠️ Admin Dashboard
 
-- CSS styling via `public/css/styles.css`
-- Client-side scripts: `form_validation.js`, `recommendations.js`
+- Admin can view all registered users
+- Role-based route protection using middleware
 
-### Progress Tracking Dashboard
+---
 
-- Use Chart.js to visualize:
-  - Needs to be modified to fit with total and completed course assignments and start-end dates of course
-  - Course completion progress.
-  - Weekly learning time (still in progress)
-  - Goal progress over time (still in progress)
+## 🧪 Testing, Seeding & Startup
 
-### Courses & Goals Features
+### 🧬 Seeding Test Users
 
-- Goals Collection:
-  - Allow users to update and delete personal learning goals.
-  - Build frontend forms and POST routes to allow users to add new goals via dashboard
-  - Add targetDate to UI
+```bash
+npm run seed # Seeds default users including one admin and one test user
+```
 
-#### Extra Features
+### 🔐 Environment Variables
 
-- Points and  badges for completing goals
+- Create a `.env` file in the root of your project with the following:
 
-### Basic Project Structure
+```bash
+YOUTUBE_API_KEY=your_actual_youtube_api_key_here
+```
+
+### 🖥️  Run the App
+
+```bash
+npm install
+npm start # Starts the server at http://localhost:3000
+```
+
+## 🗂️ Project Structure
 
 ```bash
 .
@@ -85,66 +102,66 @@
 │   ├── goals.js
 │   └── users.js
 ├── middleware
-│   └── admin.js
+│   ├── admin.js
 │   └── auth.js
 ├── package-lock.json
 ├── package.json
 ├── public
 │   ├── css
 │   │   └── styles.css
+│   ├── favicon.png
+│   ├── images
+│   │   └── badges
+│   │       ├── first-goal.png
+│   │       ├── goal-10.png
+│   │       ├── goal-20.png
+│   │       ├── goal-5.png
+│   │       ├── goal-over100.png
+│   │       └── goal-over50.png
 │   └── js
-│       ├── progress.js
+│       ├── dashboard.js
+│       ├── dashboardresize.js
 │       ├── form_validation.js
-│       └── recommendations.js
+│       ├── goal_validation.js
+│       ├── goalsToggle.js
+│       ├── login_validation.js
+│       ├── progress.js
+│       ├── recommendations.js
+│       └── validateCourse.js
 ├── routes
 │   ├── admin.js
-|   ├── courses.js
+│   ├── api.js
 │   ├── auth.js
+│   ├── courses.js
 │   ├── dashboard.js
+│   ├── landing.js
 │   └── recommendations.js
 ├── tasks
 │   └── seed.js
 ├── utils
+│   ├── badgeMap.js
+│   ├── gamification.js
 │   ├── validation.js
 │   └── youtubeApi.js
 └── views
     ├── adminDashboard.handlebars
+    ├── courseView.handlebars
     ├── createCourse.handlebars
-    ├── createCourse.handlebars
+    ├── createGoal.handlebars
     ├── dashboard.handlebars
+    ├── editAssignment.handlebars
+    ├── editCourse.handlebars
+    ├── editGoal.handlebars
+    ├── editResource.handlebars
     ├── error.handlebars
+    ├── landing.handlebars
     ├── layouts
     │   └── main.handlebars
-    ├── landing.handlebars
     ├── login.handlebars
     └── register.handlebars
 ```
 
----
+Extra Credit Features Included
 
-## 🛠️ To-Do / In Progress
-  
-### Gamification & Engagement (Extra Features)
-
-- Daily/weekly email reminders (could use `node-cron` for local or Zoho/Mailgun API).
-- “Motivational quote” or daily tip on the dashboard.
-
-### Error Handling + Validation
-
-- Input validation for user registration and login.
-- Try-catch wrappers across all route logic.
-- User-friendly error messages in the UI.
-  
-### Security Improvements
-
-- Protect sensitive routes with middleware.
-- Sanitize inputs to prevent injection.
-- HTTPS if deploying live (e.g., via Heroku or Vercel).
-
-## Running the App
-
-```bash
-npm install
-npm run seed    # Seeds default admin and testuser
-npm start       # Starts the server at http://localhost:3000
-```
+- Gamification (badges, points)
+- Customizable Dashboard (resizable layout + reset)

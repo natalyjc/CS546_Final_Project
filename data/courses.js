@@ -65,39 +65,6 @@ export const createCourse = async (userId, title, notes='', startDate, endDate) 
   return newCourse;
 };
 
-// update course progress
-export const updateCourseProgress = async (courseId) => {
-    if (!courseId) throw 'Course ID is required';
-  
-    const coursesCollection = await courses();
-  
-    // get the course
-    const course = await coursesCollection.findOne({ _id: new ObjectId(courseId) });
-    if (!course) throw 'Course not found';
-  
-    const assignments = course.assignments || [];
-  
-    // count total and completed assignments
-    const totalAssignments = assignments.length;
-    const completedAssignments = assignments.filter(a => a.scoreReceived !== undefined && a.scoreReceived !== null).length;
-  
-    // calculate progress
-    let progress = 0;
-    if (totalAssignments > 0) {
-      progress = (completedAssignments / totalAssignments) * 100;
-      progress = Math.round(progress); // round to nearest integer
-    }
-  
-    // update progress in DB
-    const result = await coursesCollection.updateOne(
-      { _id: new ObjectId(courseId) },
-      { $set: { progress } }
-    );
-  
-    if (result.modifiedCount === 0) throw 'Could not update course progress';
-    return true;
-};
-
 export const updateCourse = async (id, userId, title, startDate, endDate) => {
   if (!ObjectId.isValid(id) || !ObjectId.isValid(userId)) throw 'Invalid ID(s)';
 

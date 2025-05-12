@@ -10,9 +10,8 @@ import { ObjectId } from 'mongodb';
 const today = new Date().toISOString().split('T')[0];
 import { loggedOutRedirect } from '../middleware/auth.js';
 
-router.get('/', loggedOutRedirect,async (req, res) => {
+router.get('/', loggedOutRedirect, async (req, res) => {
   try {
-
     const userId = req.session.user._id;
     const user = await getUserById(userId);
 
@@ -23,7 +22,25 @@ router.get('/', loggedOutRedirect,async (req, res) => {
       layout: user.dashboardPreferences?.layout ?? {}
     };
 
-    const courses = prefs.showCourses ? await getCoursesByUserId(userId) : [];
+
+    // Collecting TotalAssignments and CompletedAssignments for Assignment-based progress tracking
+    let courses = [];
+    if (prefs.showCourses) {
+      courses = await getCoursesByUserId(userId);
+      
+      courses = courses.map(course => {
+        const totalAssignments = course.assignments ? course.assignments.length : 0;
+        const completedAssignments = course.assignments ? 
+          course.assignments.filter(a => a.isCompleted).length : 0;
+        
+        return {
+          ...course,
+          totalAssignments,
+          completedAssignments
+        };
+      });
+    }
+    
     const goals = prefs.showGoals ? await getGoalsByUserId(userId) : [];
 
     res.render('dashboard', {

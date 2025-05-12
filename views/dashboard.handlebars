@@ -35,7 +35,12 @@
         {{#if courses.length}}
         <ul class="course-list">
           {{#each courses}}
-          <li class="course-card" data-course-id="{{this._id}}">
+          <li class="course-card" 
+              data-course-id="{{this._id}}" 
+              data-start-date="{{this.startDate}}" 
+              data-end-date="{{this.endDate}}"
+              data-completed-assignments="{{this.completedAssignments}}"
+              data-total-assignments="{{this.totalAssignments}}">
             <div class="course-card-header">
               <a class="course-name" href="/courses/{{this._id}}">{{this.title}}</a>
               <div class="course-actions">
@@ -55,22 +60,27 @@
 
                 <div class="progress-mode-selector">
                   <label>Choose Progress Mode:</label>
-                  <select class="progress-mode">
-                    <option value="" selected disabled>Select</option>
-                    <option value="assignments">Assignments Completed</option>
-                    <option value="dates">Start-End Date</option>
-                  </select>
+                    <select class="progress-mode">
+                      <option value="" disabled selected>Select</option>
+                      <option value="assignments">Assignments Completed</option>
+                      <option value="dates">Start-End Date</option>
+                    </select>
                 </div>
 
                 <div class="assignments-inputs" style="display: none;">
-                  <input type="number" class="completed" placeholder="Completed Assignments" min="0" />
-                  <input type="number" class="total" placeholder="Total Assignments" min="1" />
+                  <div class="assignment-stats">
+                    <p><strong>Completed Assignments:</strong> <span class="completed-count">0</span> / <span class="total-count">0</span></p>
+                    <p><strong>Progress:</strong> <span class="progress-percentage">0</span>%</p>
+                  </div>
+                  <!-- Hidden inputs just for JavaScript to work with -->
+                  <input type="hidden" class="completed" />
+                  <input type="hidden" class="total" />
                 </div>
 
-                <div class="dates-inputs" style="display: none;">
-                  <input type="date" class="start-date" />
-                  <input type="date" class="end-date" />
+                <div class="dates-display" style="display: none;">
+                  <p><strong>Course Duration:</strong> <span class="date-range"></span></p>
                 </div>
+
               </div>
             </div>
 

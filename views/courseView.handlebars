@@ -76,25 +76,6 @@
   {{else}}
     <p>No assignments yet.</p>
   {{/if}}
-  
-  <!-- Course Recommendations -->
-  <div class="course-recommendations" style="margin-top: 2rem;">
-    <h3>🎥 Recommended Videos</h3>
-    {{#if recommendations.length}}
-      <ul style="list-style: none; padding: 0;">
-        {{#each recommendations}}
-          <li style="margin-bottom: 1rem;">
-            <a href="{{this.link}}" target="_blank" style="display: flex; align-items: center; gap: 1rem;">
-              <img src="{{this.thumbnail}}" alt="{{this.title}}" style="width: 120px; border-radius: 8px;" />
-              <span>{{this.title}}</span>
-            </a>
-          </li>
-        {{/each}}
-      </ul>
-    {{else}}
-      <p>No recommendations available.</p>
-    {{/if}}
-  </div>
 </div>
 
   <div class="course-actions">
@@ -137,4 +118,3 @@
 </script> --}}
 
 <script src="/js/validateCourse.js"></script>
-<script src="/js/recommendations.js"></script>

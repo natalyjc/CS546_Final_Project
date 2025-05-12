@@ -29,8 +29,6 @@ export const createUser = async (firstName, lastName, email, password, isAdmin =
     hashedPassword: hashed,
     createdAt: new Date(),
     isAdmin,
-    badges: [],
-    points: 0,
     dashboardPreferences: {
       showGoals: true,
       showCourses: true,

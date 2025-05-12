@@ -189,7 +189,7 @@ router.post('/goals/complete/:id', async (req, res) => {
 router.post('/preferences', async (req, res) => {
   try {
     const userId = req.session.user._id;
-    const { showCourses, showGoals, showRecommendations } = req.body;
+    const { showCourses, showGoals, showRecommendations } = req.body || {};
 
     const usersCollection = await users();
     await usersCollection.updateOne(

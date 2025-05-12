@@ -48,4 +48,30 @@ $(document).ready(function() {
         }
       });
     }
+
+    const preferencesForm = $('.widget-settings-form');
+
+    preferencesForm.submit(function (e) {
+      e.preventDefault();
+
+      const preferences = {
+        showCourses: $('input[name="showCourses"]').is(':checked'),
+        showGoals: $('input[name="showGoals"]').is(':checked'),
+        showRecommendations: $('input[name="showRecommendations"]').is(':checked')
+      };
+
+      $.ajax({
+        url: '/dashboard/preferences',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(preferences),
+        success: function () {
+          location.reload(); // Optionally update DOM instead of reload
+        },
+        error: function (err) {
+          console.error('Failed to save preferences:', err);
+          alert('Error saving preferences. Please try again.');
+        }
+      });
+    });
   });

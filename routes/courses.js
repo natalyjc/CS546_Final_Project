@@ -14,6 +14,8 @@ import { checkEmpty, validCourseTitle, validDate, validateDateOrder,formatForDat
 import { courses } from '../config/mongoCollections.js';
 import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
 import { loggedOutRedirect } from '../middleware/auth.js';
+import { fetchYoutubeVideos } from '../utils/youtubeApi.js';
+
 
 // --- Course Creation ---
 router.get('/new', loggedOutRedirect, (req, res) => {
@@ -38,7 +40,7 @@ router.post('/', loggedOutRedirect, async (req, res) => {
 router.get('/:id', loggedOutRedirect, async (req, res) => {
     try {
     const course = await getCourseById(req.params.id);
-
+    const recommendations = await fetchYoutubeVideos(course.title);
     course.incompleteAssignments = course.assignments.filter(a => !a.isCompleted);
     course.completedAssignments = course.assignments.filter(a => a.isCompleted);
 
@@ -64,7 +66,7 @@ router.get('/:id', loggedOutRedirect, async (req, res) => {
       };
     });
 
-    res.render('courseView', { course, title: course.title });
+    res.render('courseView', { course, title: course.title, recommendations });
   } catch (e) {
     res.status(404).render('error', { error: 'Course not found' });
   }

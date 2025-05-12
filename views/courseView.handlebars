@@ -61,6 +61,18 @@
     <p><em>No assignments due.</em></p>
   {{/if}}
 
+  <div class="course-recommendations">
+      <h3>🎥 Recommended YouTube Videos:</h3>
+      <ul>
+        {{#each recommendations}}
+          <li>
+            <img src="{{this.thumbnail}}" alt="thumbnail" />
+            <a href="{{this.link}}" target="_blank">{{this.title}}</a>
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+
   {{#if course.completedAssignments.length}}
     <details style="margin-top: 1rem;">
       <summary style="cursor: pointer; font-weight: bold;">Show Completed Assignments</summary>
@@ -75,6 +87,7 @@
       {{/each}}
     </details>
   {{/if}}
+
 </div>
 
   <div class="course-actions">

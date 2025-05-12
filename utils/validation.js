@@ -83,6 +83,12 @@ export const validDate = (date) => {
     return dateObj;
 };
 
+export function formatForDatetimeLocal(dateStr) {
+    const date = new Date(dateStr);
+    const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+    return local.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:MM"
+  }
+
 export default {
     validName,
     validEmail,
@@ -90,5 +96,6 @@ export default {
     validCourseTitle,
     validateDateOrder,
     checkEmpty,
-    validDate
+    validDate,
+    formatForDatetimeLocal
 }

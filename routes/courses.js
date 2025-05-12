@@ -10,7 +10,7 @@ import {
 } from '../data/courses.js';
 import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
-import { checkEmpty, validCourseTitle, validDate, validateDateOrder } from '../utils/validation.js';
+import { checkEmpty, validCourseTitle, validDate, validateDateOrder,formatForDatetimeLocal } from '../utils/validation.js';
 import { courses } from '../config/mongoCollections.js';
 import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
 import { loggedOutRedirect } from '../middleware/auth.js';
@@ -36,8 +36,34 @@ router.post('/', loggedOutRedirect, async (req, res) => {
 
 // --- Course View ---
 router.get('/:id', loggedOutRedirect, async (req, res) => {
-  try {
+    try {
     const course = await getCourseById(req.params.id);
+
+    course.incompleteAssignments = course.assignments.filter(a => !a.isCompleted);
+    course.completedAssignments = course.assignments.filter(a => a.isCompleted);
+
+
+    const formatDateShort = (dateStr) => {
+      const d = new Date(dateStr);
+      return d.toLocaleString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    };
+
+    course.assignments = course.assignments.map((a) => {
+      return {
+        ...a,
+        formattedDueDate: formatDateShort(a.dueDate),
+        formattedCompletedDate: a.isCompleted && a.completedDate ? formatDateShort(a.completedDate) : null
+      };
+    });
+
     res.render('courseView', { course, title: course.title });
   } catch (e) {
     res.status(404).render('error', { error: 'Course not found' });
@@ -79,7 +105,7 @@ router.get('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, async
 
   if (!assignment) return res.status(404).render('error', { error: 'Assignment not found' });
 
-  const formattedDueDate = new Date(assignment.dueDate).toISOString().slice(0, 16); 
+  const formattedDueDate = formatForDatetimeLocal(assignment.dueDate)
 
   res.render('editAssignment', { courseId: req.params.courseId, assignment, formattedDueDate });
 });
@@ -194,7 +220,7 @@ router.post('/:courseId/resources/:resourceId/edit', loggedOutRedirect, async (r
         { $set: { 'resources.$.title': title.trim(), 'resources.$.link': link.trim() } }
       )
     );
-    if (result.modifiedCount === 0) throw 'Resource update failed';
+    if (result.matchedCount === 0) throw 'Resource update failed';
     res.redirect(`/courses/${req.params.courseId}`);
   } catch (e) {
     res.status(400).render('error', { error: e.toString() });

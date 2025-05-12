@@ -11,70 +11,69 @@
   </div>
 
   <div>
-    <h3>🔗 Resources</h3>
+    <h3>Resources</h3>
     {{#if course.resources.length}}
-      <ul>
-        {{#each course.resources}}
-          <li>
-            <a href="{{this.link}}" target="_blank">{{this.title}}</a>
-            <div class="course-actions">
-              <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/edit" method="GET">
-                <button class="submit-btn" type="submit">✏️ Edit</button>
-              </form>
-              <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/delete" method="POST">
-                <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
-              </form>
-            </div>
-          </li>
-        {{/each}}
-      </ul>
+    <ul>
+      {{#each course.resources}}
+      <li>
+        <a href="{{this.link}}" target="_blank">{{this.title}}</a>
+        <div class="course-actions">
+          <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/edit" method="GET">
+            <button class="submit-btn" type="submit">✏️ Edit</button>
+          </form>
+          <form action="/courses/{{../course._id}}/resources/{{this.resourceId}}/delete" method="POST">
+            <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
+          </form>
+        </div>
+      </li>
+      {{/each}}
+    </ul>
     {{else}}
-      <p>No resources yet.</p>
+    <p>No resources yet.</p>
     {{/if}}
   </div>
 
   <div>
-  <h3>📝 Assignments</h3>
-  {{#if course.assignments.length}}
-    <ul>
-      {{#each course.assignments}}
-        {{#unless this.isCompleted}}
-        <!-- Incomplete assignments -->
-        <li>
-          <strong>{{this.title}}</strong> — due {{this.dueDate}}<br />
-          <em>{{this.description}}</em><br />
-          <div class="assignment-actions">
-            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/complete" method="POST">
-              <button class="submit-btn" type="submit">📬 Submit</button>
-            </form>
-            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/edit" method="GET">
-              <button class="submit-btn" type="submit">✏️ Edit</button>
-            </form>
-            <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/delete" method="POST">
-              <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
-            </form>
-          </div>
-        </li>
-        {{/unless}}
-      {{/each}}
-    </ul>
-
-    <!-- Dropdown for completed assignments -->
-    <details style="margin-top: 1rem;">
-      <summary style="cursor: pointer; font-weight: bold;"> Show Completed Assignments</summary>
-      <ul>
-        {{#each course.assignments}}
-          {{#if this.isCompleted}}
-          <li>
-            <strong>{{this.title}}</strong> — completed on {{this.completedDate}}<br />
-            <em>{{this.description}}</em>
-          </li>
-          {{/if}}
-        {{/each}}
-      </ul>
-    </details>
+  <h3>Assignments</h3>
+  
+  {{#if course.incompleteAssignments.length}}
+    {{#each course.incompleteAssignments}}
+      <div class="assignment-card">
+        <div class="assignment-header">
+          <strong>{{this.title}}</strong>
+          <span class="assignment-due">Due {{this.formattedDueDate}}</span>
+        </div>
+        <p>{{this.description}}</p>
+        <div class="assignment-actions">
+          <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/complete" method="POST">
+            <button class="submit-btn btn-success" type="submit">📬 Submit</button>
+          </form>
+          <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/edit" method="GET">
+            <button class="submit-btn btn-edit" type="submit">✏️ Edit</button>
+          </form>
+          <form action="/courses/{{../course._id}}/assignments/{{this.assignmentId}}/delete" method="POST">
+            <button class="submit-btn delete-course-btn" type="submit">🗑 Delete</button>
+          </form>
+        </div>
+      </div>
+    {{/each}}
   {{else}}
-    <p>No assignments yet.</p>
+    <p><em>No assignments due.</em></p>
+  {{/if}}
+
+  {{#if course.completedAssignments.length}}
+    <details style="margin-top: 1rem;">
+      <summary style="cursor: pointer; font-weight: bold;">Show Completed Assignments</summary>
+      {{#each course.completedAssignments}}
+        <div class="assignment-card completed">
+          <div class="assignment-header stacked">
+            <strong>{{this.title}}</strong>
+            <span class="assignment-due">Completed on {{this.formattedCompletedDate}}</span>
+          </div>
+          <p>{{this.description}}</p>
+        </div>
+      {{/each}}
+    </details>
   {{/if}}
 </div>
 
@@ -105,7 +104,7 @@
   <a href="/dashboard" class="btn-back-top">⬅ Back to Dashboard</a>
 </div>
 
-{{!-- <script>
+<script>
   document.getElementById('toggleAssignmentForm').onclick = () => {
     const form = document.getElementById('assignmentFormContainer');
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
@@ -115,6 +114,6 @@
     const form = document.getElementById('resourceFormContainer');
     form.style.display = form.style.display === 'none' ? 'block' : 'none';
   };
-</script> --}}
+</script>
 
 <script src="/js/validateCourse.js"></script>

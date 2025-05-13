@@ -10,7 +10,7 @@ import {
 } from '../data/courses.js';
 import { getGoalsByUserId } from '../data/goals.js';
 import { getUserById } from '../data/users.js';
-import { checkEmpty, validCourseTitle, validDate, validateDateOrder,formatForDatetimeLocal } from '../utils/validation.js';
+import { checkEmpty, validCourseTitle, validDate, validateDateOrder, formatForDatetimeLocal } from '../utils/validation.js';
 import { courses } from '../config/mongoCollections.js';
 import { ConnectionCheckOutStartedEvent, ObjectId } from 'mongodb';
 import { loggedOutRedirect } from '../middleware/auth.js';
@@ -38,13 +38,11 @@ router.post('/', loggedOutRedirect, async (req, res) => {
 
 // --- Course View ---
 router.get('/:id', loggedOutRedirect, async (req, res) => {
-    try {
+  try {
     const course = await getCourseById(req.params.id);
     const recommendations = await fetchYoutubeVideos(course.title);
-    course.incompleteAssignments = course.assignments.filter(a => !a.isCompleted);
-    course.completedAssignments = course.assignments.filter(a => a.isCompleted);
 
-
+    // Define this function before using it
     const formatDateShort = (dateStr) => {
       const d = new Date(dateStr);
       return d.toLocaleString('en-US', {
@@ -58,19 +56,27 @@ router.get('/:id', loggedOutRedirect, async (req, res) => {
       });
     };
 
+    // Format assignment dates first
     course.assignments = course.assignments.map((a) => {
       return {
         ...a,
         formattedDueDate: formatDateShort(a.dueDate),
-        formattedCompletedDate: a.isCompleted && a.completedDate ? formatDateShort(a.completedDate) : null
+        formattedCompletedDate: a.isCompleted && a.completedDate
+          ? formatDateShort(a.completedDate)
+          : null
       };
     });
+
+    // Now split into incomplete and completed after formatting
+    course.incompleteAssignments = course.assignments.filter(a => !a.isCompleted);
+    course.completedAssignments = course.assignments.filter(a => a.isCompleted);
 
     res.render('courseView', { course, title: course.title, recommendations });
   } catch (e) {
     res.status(404).render('error', { error: 'Course not found' });
   }
 });
+
 
 // --- Assignments ---
 router.post('/:id/assignments', loggedOutRedirect, async (req, res) => {
@@ -135,7 +141,7 @@ router.post('/:courseId/assignments/:assignmentId/edit', loggedOutRedirect, asyn
     if (result.matchedCount === 0) {
       throw 'Assignment not found — update failed';
     }
-    
+
     if (result.modifiedCount === 0) {
       console.warn('No changes were made to the assignment.');
     }

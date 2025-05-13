@@ -13,7 +13,7 @@ router.post('/login', loggedInRedirect, async (req, res) => {
   let { email, password } = req.body;
   try {
     email = validEmail(email);
-    password = validPassword(password).trim();
+    password = password.trim();
     const user = await checkUser(email, password);
     req.session.user = {
       _id: user._id,

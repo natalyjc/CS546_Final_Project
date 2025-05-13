@@ -2,6 +2,10 @@
   <h1 class="form-title">Create Account ✨</h1>
   <p class="form-subtitle">Join the dashboard to track your learning goals</p>
 
+  {{#if error}}
+    <div class="error-message">{{error}}</div>
+  {{/if}}
+
   <form method="POST" action="/auth/register">
     <label for="firstName">First Name</label>
     <input type="text" id="firstName" name="firstName" required placeholder="John" />

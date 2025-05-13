@@ -80,6 +80,10 @@ npm run seed # Seeds default users including one admin and one test user
 YOUTUBE_API_KEY=your_actual_youtube_api_key_here
 ```
 
+backup api -> AIzaSyDEoD3IQQfIZPg-oWYSXzr-_omjgHq2IyM
+
+stevens email api -> AIzaSyAHDo5QLEioHtMrcMuoaFkjOQaURo-XVIY
+
 ### 🖥️  Run the App
 
 ```bash

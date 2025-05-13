@@ -11,6 +11,13 @@ export const validName = (name) => {
     if (name.length < 2 || name.length > 50) {
         throw 'Name must be between 2 and 50 characters long';
     }
+
+    // Only allow letters, spaces, and hyphens
+    const nameRegex = /^[A-Za-z\s\-]+$/;
+    if (!nameRegex.test(name)) {
+        throw 'Name must only contain letters, spaces, or hyphens (no numbers or special characters)';
+    }
+    
     // sanitize the name to prevent XSS attacks
     name = xss(name);
 

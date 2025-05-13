@@ -1,77 +1,77 @@
-$(document).ready(function() {
-    
-    fetchCourses();
+(function ($) {
+  const $goalWrapper = $('#goal-list-wrapper');
 
-    function fetchCourses() {
-      $.ajax({
-        url: '/api/courses',
-        method: 'GET',
-        success: function(responseMessage) {
-          if (responseMessage && responseMessage.length > 0) {
-            const courseListContainer = $('<ul class="course-list"></ul>');
-            responseMessage.forEach((course, index) => {
-              const courseElement = $(`
-                <li class="course-card">
-                  <div class="course-card-header">
-                    <div class="course-name">
-                      <a href="/courses/${course._id}" class="course-link">${course.title}</a>
-                    </div>
-                    <div class="course-actions">
-                      <a href="/courses/${course._id}/edit" class="update-course-btn">✏️ Edit</a>
-                      <form action="/courses/delete/${course._id}" method="POST">
-                        <button type="submit" class="delete-course-btn" data-id="${course._id}">🗑 Delete</button>
-                      </form>
-                    </div>
+  if ($goalWrapper.length) {
+    $.getJSON('/api/goals')
+      .done(function (goals) {
+        if (!goals.length) {
+          $goalWrapper.html('<p>No goals added yet.</p>');
+          return;
+        }
+
+        const $list = $('<ul class="goal-list"></ul>');
+
+        goals.forEach(goal => {
+          const isCompleted = goal.isCompleted;
+
+          const goalHtml = isCompleted
+            ? `
+              <li class="goal-card completed-goal" style="display: none;">
+                <div class="goal-text">📌 ${goal.goalTitle}</div>
+                <div class="goal-target-date">🎯 Target Date: ${goal.targetDate}</div>
+                <div class="goal-completed">✅ Completed</div>
+              </li>
+            `
+            : `
+              <li class="goal-card">
+                <div class="goal-card-content">
+                  <div class="goal-info">
+                    <div class="goal-title">📌 ${goal.goalTitle}</div>
+                    <div class="goal-date">🎯 Target Date: ${goal.targetDate}</div>
                   </div>
-                  <div class="course-details">
-                    <span class="course-progress">📈 Progress: ${course.progress}%</span>
-                    <span class="course-status">📌 Status: ${course.status}</span>
+                  <div class="goal-status-actions">
+                    <span class="goal-status in-progress">🚀 In Progress</span>
+                    <form action="/dashboard/goals/complete/${goal._id}" method="POST">
+                      <button type="submit" class="btn-primary mark-complete-btn">✅ Complete</button>
+                    </form>
+                    <form action="/dashboard/goals/${goal._id}/edit" method="GET">
+                      <button type="submit" class="btn-primary mark-complete-btn">✏️ Edit</button>
+                    </form>
+                    <form action="/dashboard/goals/${goal._id}/delete" method="POST"
+                      onsubmit="return confirm('Are you sure you want to delete this goal?');">
+                      <button type="submit" class="btn-primary mark-complete-btn">🗑 Delete</button>
+                    </form>
                   </div>
-                  <div class="course-recommendations">
-                    <h4>🎥 Recommended YouTube Videos:</h4>
-                    <ul id="yt-${index}">
-                      <li>Loading videos...</li>
-                    </ul>
-                  </div>
-                </li>
-              `);
-              courseListContainer.append(courseElement);
-            });
-            $('#courseContainer').html(courseListContainer);
+                </div>
+              </li>
+            `;
+
+          $list.append(goalHtml);
+        });
+
+        const $toggleButton = $(`
+          <button id="toggle-completed-btn" class="btn-create-course" style="margin-top: 1rem;">
+            Show Completed Goals
+          </button>
+        `);
+
+        $goalWrapper.empty().append($list).append($toggleButton);
+
+        $toggleButton.on('click', function () {
+          const $completedGoals = $('.completed-goal');
+          const isHidden = $completedGoals.first().css('display') === 'none';
+
+          if (isHidden) {
+            $completedGoals.slideDown();
+            $(this).text('Hide Completed Goals');
           } else {
-            $('#courseContainer').html('<p>No courses added yet.</p>');
+            $completedGoals.slideUp();
+            $(this).text('Show Completed Goals');
           }
-        },
-        error: function(error) {
-          console.error('Error fetching courses:', error);
-          $('#courseContainer').html('<p>Error loading courses. Please try again later.</p>');
-        }
+        });
+      })
+      .fail(function () {
+        $goalWrapper.html('<p>Error loading goals. Please try again later.</p>');
       });
-    }
-
-    const preferencesForm = $('.widget-settings-form');
-
-    preferencesForm.submit(function (e) {
-      e.preventDefault();
-
-      const preferences = {
-        showCourses: $('input[name="showCourses"]').is(':checked'),
-        showGoals: $('input[name="showGoals"]').is(':checked'),
-        showRecommendations: $('input[name="showRecommendations"]').is(':checked')
-      };
-
-      $.ajax({
-        url: '/dashboard/preferences',
-        method: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(preferences),
-        success: function () {
-          location.reload(); // Optionally update DOM instead of reload
-        },
-        error: function (err) {
-          console.error('Failed to save preferences:', err);
-          alert('Error saving preferences. Please try again.');
-        }
-      });
-    });
-  });
+  }
+})(window.jQuery);

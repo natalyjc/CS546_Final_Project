@@ -109,56 +109,19 @@
     </div>
     {{/if}}
 
-    {{#if dashboardPreferences.showGoals}}
-    <div class="resizable-box" style="width: {{layoutPrefs.goals.width}}; height: {{layoutPrefs.goals.height}}">
-      <div class="dashboard-section">
-        <div class="section-header">
-          <h3>🎯 My Goals</h3>
-          <a href="/dashboard/goals/new" class="btn-create-course">➕ Add New Goal</a>
-        </div>
-
-        {{#if goals.length}}
-        <ul class="goal-list">
-          {{#each goals}}
-          {{#if this.isCompleted}}
-          <li class="goal-card completed-goal" style="display: none;">
-            <div class="goal-text">📌 {{this.goalTitle}}</div>
-            <div class="goal-target-date">🎯 Target Date: {{this.targetDate}}</div>
-            <div class="goal-completed">✅ Completed</div>
-          </li>
-          {{else}}
-          <li class="goal-card">
-            <div class="goal-card-content">
-              <div class="goal-info">
-                <div class="goal-title">📌 {{this.goalTitle}}</div>
-                <div class="goal-date">🎯 Target Date: {{this.targetDate}}</div>
-              </div>
-              <div class="goal-status-actions">
-                <span class="goal-status in-progress">🚀 In Progress</span>
-                <form action="/dashboard/goals/complete/{{this._id}}" method="POST">
-                  <button type="submit" class="btn-primary mark-complete-btn">✅ Complete</button>
-                </form>
-                <form action="/dashboard/goals/{{this._id}}/edit" method="GET">
-                  <button type="submit" class="btn-primary mark-complete-btn">✏️ Edit</button>
-                </form>
-                <form action="/dashboard/goals/{{this._id}}/delete" method="POST"
-                  onsubmit="return confirm('Are you sure you want to delete this goal?');">
-                  <button type="submit" class="btn-primary mark-complete-btn">🗑 Delete</button>
-                </form>
-              </div>
-            </div>
-          </li>
-          {{/if}}
-          {{/each}}
-        </ul>
-        <button id="toggle-completed-btn" class="btn-create-course" style="margin-top: 1rem;">Show Completed
-          Goals</button>
-        {{else}}
-        <p>No goals added yet.</p>
-        {{/if}}
-      </div>
+  {{#if dashboardPreferences.showGoals}}
+<div id="goals-container" class="resizable-box" style="width: {{layoutPrefs.goals.width}}; height: {{layoutPrefs.goals.height}}">
+  <div class="dashboard-section">
+    <div class="section-header">
+      <h3>🎯 My Goals</h3>
+      <a href="/dashboard/goals/new" class="btn-create-course">➕ Add New Goal</a>
     </div>
-    {{/if}}
+    <div id="goal-list-wrapper">
+      <p>Loading goals...</p>
+    </div>
+  </div>
+</div>
+{{/if}}
 
     <div class="dashboard-section gamification">
       <h3>🏅 Badges & Points</h3>

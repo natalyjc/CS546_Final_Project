@@ -15,8 +15,8 @@ export const getGoalsByUserId = async (userId) => {
 export const createGoal = async (userId, goalTitle, targetDate) => {
   if (!userId || !goalTitle || !targetDate) throw 'All fields are required';
 
-  const [month, day, year] = targetDate.split('/');
-  const target = new Date(Date.UTC(year, month - 1, day)); // UTC midnight
+  const [year, month, day] = targetDate.split('-');
+  const target = new Date(Date.UTC(year, month - 1, day));
   const today = new Date();
   today.setUTCHours(0, 0, 0, 0);
 
@@ -29,7 +29,7 @@ export const createGoal = async (userId, goalTitle, targetDate) => {
   const newGoal = {
     userId: userId.toString(),
     goalTitle,
-    targetDate: target, // stored as date-only
+    targetDate: targetDate, 
     isCompleted: false
   };
 
@@ -64,7 +64,7 @@ export const updateGoal = async (goalId, goalTitle, targetDate) => {
 
   const result = await goalsCollection.updateOne(
     { _id: new ObjectId(goalId) },
-    { $set: { goalTitle, targetDate: target } }
+    { $set: { goalTitle, targetDate: targetDate } }
   );
 
   if (result.matchedCount === 0) throw 'Goal not found or not authorized to edit.';

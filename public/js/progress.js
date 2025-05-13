@@ -101,9 +101,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           let progress = 0;
           if (end > start && now >= start) {
-            const elapsed = now - start;
-            const total = end - start;
-            progress = Math.min(100, Math.round((elapsed / total) * 100));
+            const ms_per_day = 1000 * 60 * 60 * 24;
+            const daysElapsed = Math.floor((now - start) / ms_per_day) + 1;
+            const totalDays = Math.ceil((end - start) / ms_per_day) + 1;
+            progress = Math.min(100, Math.round((daysElapsed / totalDays) * 100));
           }
 
           chart.data.datasets[0].data = [progress, 100 - progress];

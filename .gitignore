@@ -7,7 +7,7 @@ logs/
 npm-debug.log*
 
 # dotenv files (for secrets)
-.env
+# .env
 
 # Operating System files
 .DS_Store

@@ -2,10 +2,11 @@ import express from 'express';
 import { fetchYoutubeVideos } from '../utils/youtubeApi.js';
 import { courses } from '../config/mongoCollections.js';
 import { ObjectId } from 'mongodb';
+import { loggedOutRedirect } from '../middleware/auth.js';
 
 const router = express.Router();
 
-router.get('/:courseId', async (req, res) => {
+router.get('/:courseId', loggedOutRedirect, async (req, res) => {
   const courseId = req.params.courseId;
 
   try {

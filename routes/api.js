@@ -1,8 +1,9 @@
 import { Router } from 'express';
 import { getGoalsByUserId } from '../data/goals.js';
+import { loggedOutRedirect } from '../middleware/auth.js';
 const router = Router();
 
-router.get('/goals', async (req, res) => {
+router.get('/goals', loggedOutRedirect, async (req, res) => {
   try{
     const userId = req.session.user._id;
     const goals = await getGoalsByUserId(userId);

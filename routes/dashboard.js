@@ -69,10 +69,7 @@ router.get('/', loggedOutRedirect, async (req, res) => {
   }
 });
 
-router.get('/courses/new', (req, res) => {
-  if (!req.session.user) {
-    return res.redirect('/login');
-  }
+router.get('/courses/new', loggedOutRedirect, (req, res) => {
 
   res.render('createCourse', {
     title: 'Create New Course',
@@ -98,7 +95,7 @@ router.post('/courses', loggedOutRedirect, async (req, res) => {
 });
 
 
-router.post('/courses/delete/:id', async (req, res) => {
+router.post('/courses/delete/:id', loggedOutRedirect, async (req, res) => {
   try {
     const userId = req.session.user._id;
     const courseId = req.params.id;
@@ -131,7 +128,7 @@ router.get('/goals/new', loggedOutRedirect, (req, res) => {
   });
 });
 
-router.post('/goals', async (req, res) => {
+router.post('/goals', loggedOutRedirect, async (req, res) => {
   const userId = req.session.user._id;
   const { goalTitle, targetDate } = req.body;
 
@@ -147,13 +144,13 @@ router.post('/goals', async (req, res) => {
 });
 
 // GET: Edit form
-router.get('/goals/:goalId/edit', async (req, res) => {
+router.get('/goals/:goalId/edit', loggedOutRedirect, async (req, res) => {
   const goal = await getGoalById(req.params.goalId);
   res.render('editGoal', { goal });
 });
 
 // POST: Save edits
-router.post('/goals/:goalId/edit', async (req, res) => {
+router.post('/goals/:goalId/edit', loggedOutRedirect, async (req, res) => {
   try {
     await updateGoal(req.params.goalId, req.body.goalTitle, req.body.targetDate);
     res.redirect('/dashboard');
@@ -162,7 +159,7 @@ router.post('/goals/:goalId/edit', async (req, res) => {
   }
 });
 
-router.post('/goals/:goalId/delete', async (req, res) => {
+router.post('/goals/:goalId/delete', loggedOutRedirect, async (req, res) => {
   try {
     await deleteGoal(req.params.goalId);
     res.redirect('/dashboard');
@@ -172,7 +169,7 @@ router.post('/goals/:goalId/delete', async (req, res) => {
 });
 
 
-router.post('/goals/complete/:id', async (req, res) => {
+router.post('/goals/complete/:id', loggedOutRedirect, async (req, res) => {
   try {
     const goalId = req.params.id;
     const userId = req.session.user._id;
@@ -186,7 +183,7 @@ router.post('/goals/complete/:id', async (req, res) => {
   }
 });
 
-router.post('/preferences', async (req, res) => {
+router.post('/preferences', loggedOutRedirect, async (req, res) => {
   try {
     const userId = req.session.user._id;
     const { showCourses, showGoals, showRecommendations } = req.body || {};
@@ -209,7 +206,7 @@ router.post('/preferences', async (req, res) => {
   }
 });
 
-router.post('/save-layout', async (req, res) => {
+router.post('/save-layout', loggedOutRedirect, async (req, res) => {
   const userId = req.session.user._id;
   const { section, width, height } = req.body;
 
@@ -234,7 +231,7 @@ router.post('/save-layout', async (req, res) => {
   }
 });
 
-router.post('/reset-layout', async (req, res) => {
+router.post('/reset-layout', loggedOutRedirect, async (req, res) => {
   const userId = req.session.user._id;
   const usersCollection = await users();
   await usersCollection.updateOne(

@@ -9,7 +9,7 @@ router.get('/login', loggedInRedirect, (req, res) => {
   res.render('login', { title: 'Login' });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', loggedInRedirect, async (req, res) => {
   let { email, password } = req.body;
   try {
     email = validEmail(email);
@@ -36,7 +36,7 @@ router.get('/register', loggedInRedirect, (req, res) => {
   res.render('register', { title: 'Register' });
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', loggedInRedirect, async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   try {
     firstName = validName(firstName).trim();

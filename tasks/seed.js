@@ -22,15 +22,15 @@ const seed = async () => {
       user._id.toString(),
       'Web Programming',
       'Learn full-stack JS',
-      '2024-01-01',
-      '2024-05-01'
+      '2025-01-01',
+      '2025-06-01'
     );
     const course2 = await createCourse(
       user._id.toString(),
       'Machine Learning',
       'Intro to ML',
-      '2024-02-01',
-      '2024-06-01'
+      '2025-02-01',
+      '2025-06-01'
     );
 
     const coursesCollection = (await import('../config/mongoCollections.js')).courses;
